@@ -1,10 +1,18 @@
 ---
-// import { Image } from 'astro:assets';
+import { Image } from 'astro:assets';
 const {category} = Astro.props;
 
-const img = "../../public/images/categories/" + category + ".jpg";
+// const img_path = "/images/categories/" + category + ".jpg";
+// const img_path = "../assets/images/categories/" + category + ".jpg";
+const img_path = "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/public/images/categories/" + category + ".jpg";
+
+// const img = await import("../assets/images/categories/" + category + ".jpg");
+
 ---
 <div class="category-item">
   {category}
-  <img src={img} alt={category} />
+  <img
+    src={img_path}
+    alt={category} 
+    />
 </div>
