@@ -1,12 +1,45 @@
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} >
-    <title>Index</title>
-  </head>
-  <body>
-    <h1>Index</h1>
-  </body>
-</html>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+// import Thing from '../components/Thing.astro';
+// const pageTitle = "Gadget3D";
+
+import { supabase } from '../supabase';
+
+const { data, error } = await supabase
+  .from('categories')
+  .select();
+
+if (error) {
+  console.error(error)
+}
+
+---
+
+<!-- <script>
+  function makeCategory (item) {
+    item.category
+    if (!(item.image_url === null)) {
+      <img src=item.image_url alt=item.category/>
+    }
+  }
+ </script> -->
+
+<!-- <BaseLayout pageTitle={pageTitle}> -->
+<BaseLayout>
+<!-- <h2>Subtitle</h2> -->
+
+  <!-- <Thing uuid="3119e8b4-c628-4694-87be-ca5b291045d3"/> -->
+
+  <div class="category-grid">
+    {data.map((item) => (
+      <div class="category-item">
+        {item.category}
+        <img src=`/public/images/categories/${item.category}.jpg` alt={item.category}/>
+      </div>
+    ))}
+
+  </div>
+
+  <!-- <div><img src="public/images/categories/dragons" alt="dragons"></div> -->
+
+</BaseLayout>
