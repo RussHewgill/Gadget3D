@@ -1,0 +1,10 @@
+---
+// import { Image } from 'astro:assets';
+const {category} = Astro.props;
+
+const img = "../../public/images/categories/" + category + ".jpg";
+---
+<div class="category-item">
+  {category}
+  <img src={img} alt={category} />
+</div>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 // import Thing from '../components/Thing.astro';
+import CategoryItem from '../components/CategoryItem.astro';
 // const pageTitle = "Gadget3D";
 
 import { supabase } from '../supabase';
@@ -32,11 +33,16 @@ if (error) {
 
   <div class="category-grid">
     {data.map((item) => (
+      <CategoryItem category={item.category} />
+    ))}
+
+
+    <!-- {data.map((item) => (
       <div class="category-item">
         {item.category}
         <img src=`/public/images/categories/${item.category}.jpg` alt={item.category}/>
       </div>
-    ))}
+    ))} -->
 
   </div>
 
