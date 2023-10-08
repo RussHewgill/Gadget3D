@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { supabase } from '../../supabase';
+
+const { data, error } = await supabase
+  .from('things')
+  .select('tags');
+if (error) {
+  console.error(error)
+}
+
+const tags = [...new Set(data.map((t) => t.tags).flat())];
+
+const pageTitle = "Tag List";
+
+---
+
+<BaseLayout pageTitle={pageTitle}>
+
+  <div>{tags.map((tag) => <p>{tag}</p>)}</div>
+
+</BaseLayout>

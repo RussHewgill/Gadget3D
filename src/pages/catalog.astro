@@ -1,11 +1,52 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 // import Thing from '../components/Thing.astro';
-const pageTitle = "About Gadget3D";
----
-<BaseLayout pageTitle={pageTitle}>
-  <!-- <h2>Subtitle</h2> -->
+import CatalogItem from '../components/CatalogItem.astro';
 
-  <!-- <Thing uuid="3119e8b4-c628-4694-87be-ca5b291045d3"/> -->
+import { supabase } from '../supabase';
+
+const { data, error } = await supabase
+  .from('things')
+  .select();
+if (error) {
+  console.error(error)
+}
+
+// const tags = [...new Set(data.map((t) => t.tags).flat())];
+
+const things = [...new Set(data?.map((t) => t.item_name).flat())];
+
+const pageTitle = "Catalog";
+
+---
+
+<BaseLayout pageTitle={pageTitle}>
+
+  <!-- left side: tag list -->
+  <div class="catalog-filters-container">
+    <aside class="catalog-filters">
+      <h2>Filter by tag</h2>
+      
+    </aside>
+  </div>
+
+  <main class="catalog-main">
+    
+    <!-- todo: sort by -->
+    <!-- <select>
+      <option></option>
+    </select> -->
+    
+    <div class="catalog-grid">
+
+      {things.map((t) => (
+        <CatalogItem item={data.find((item) => {
+          return item.item_name === `${t}`;
+        })}/>
+      ))}
+
+
+    </div>
+  </main>
 
 </BaseLayout>

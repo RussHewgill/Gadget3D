@@ -1,0 +1,13 @@
+---
+import { Image } from 'astro:assets';
+const { img } = Astro.props;
+---
+
+<div class="header-div header-badge">
+  <Image
+    src={img}
+    alt="Cinderwing Badge"
+    quality=max
+    class="seller-badge"
+    />
+</div>

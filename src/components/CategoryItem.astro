@@ -1,14 +1,15 @@
 ---
 import { Image } from 'astro:assets';
 const { category } = Astro.props;
+const { has_image } = Astro.props;
 ---
 
 <div class="category-item">
   {category}
-  <Image
+  {has_image && <Image
     src={import(`../assets/images/categories/${category}.jpg`)}
     height={300}
-    aspectRatio={4 / 3}
     alt="test alt"
     />
+  }
 </div>

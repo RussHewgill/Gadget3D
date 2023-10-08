@@ -1,22 +1,70 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
+import { supabase } from '../../supabase';
+
+// export async function getStaticPaths() {
+//     const { data, error } = await supabase
+//         .from('tags')
+//         .select('tag');
+//     if (error) {
+//       console.error(error)
+//     }
+//     // const allPosts = await Astro.glob('../things/*.md');
+
+//     const tags = [];
+
+//     data.map((t) => {
+//         tags.push({ params: { tag: t.tag }});
+//     });
+
+//     return tags;
+
+//     // return [
+//     //     // { params: { tag: "dragon" }, props: {posts: allPosts} },
+//     //     // { params: { tag: "cinderwing" }, props: {posts: allPosts} },
+//     //     // { params: { tag: "fidget" }, props: {posts: allPosts} },
+//     // ];
+// }
+
 export async function getStaticPaths() {
-    const allPosts = await Astro.glob('../things/*.md');
-    return [
-        { params: { tag: "dragon" }, props: {posts: allPosts} },
-        { params: { tag: "cinderwing" }, props: {posts: allPosts} },
-        { params: { tag: "fidget" }, props: {posts: allPosts} },
-    ];
+    const { data, error } = await supabase
+        .from('things')
+        .select('tags');
+    if (error) {
+      console.error(error)
+    }
+    // const allPosts = await Astro.glob('../things/*.md');
+
+    const tags = [];
+
+    // data.map((t) => {
+    //     tags.push({ params: { tag: t.tag }});
+    // });
+
+    const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
+
+    uniqueTags.map((t) => {
+      tags.push({ params: { tag: t }});
+    });
+    
+    return tags;
+
+    // return [
+    //     // { params: { tag: "dragon" }, props: {posts: allPosts} },
+    //     // { params: { tag: "cinderwing" }, props: {posts: allPosts} },
+    //     // { params: { tag: "fidget" }, props: {posts: allPosts} },
+    // ];
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
-const filteredPosts = posts.filter((post) => post.frontmatter.tags?.includes(tag));
+// const { posts } = Astro.props;
+// const filteredPosts = posts.filter((post) => post.frontmatter.tags?.includes(tag));
+
 ---
 <BaseLayout pageTitle={tag}>
     <p>Posts tagged with {tag}</p>
-    <ul>
+    <!-- <ul>
         {filteredPosts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
-    </ul>
+    </ul> -->
 </BaseLayout>
