@@ -3,11 +3,11 @@ import { Image } from 'astro:assets';
 const { img } = Astro.props;
 ---
 
-<div class="header-div header-badge">
+<div class="header-badge align-end p-2 bg-transparent">
   <Image
     src={img}
     alt="Cinderwing Badge"
     quality=max
-    class="seller-badge"
+    class="seller-badge w-[60px] h-full"
     />
 </div>

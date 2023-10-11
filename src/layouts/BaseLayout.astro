@@ -1,11 +1,12 @@
 ---
-import '../styles/global.css';
+// import '../styles/global.css';
+import '../styles/main.css';
 
 import Header from '../components/Header.astro';
 const { pageTitle } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" class="text-light-shade bg-dark-shade font-sans-serif p-1 w-full max-w-2xl lg:max-w-4xl sm:max-w-sm m-auto">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
@@ -14,8 +15,10 @@ const { pageTitle } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
-    <Header />
-    <h1>{pageTitle}</h1>
+    <div class="flex justify-center">
+      <Header />
+    </div>
+    <h1 class="text-4xl text-center">{pageTitle}</h1>
     <slot />
   </body>
 </html>

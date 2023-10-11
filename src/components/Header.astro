@@ -7,14 +7,14 @@ import badge_cinderwing from "../assets/images/badges/cinderwing.png";
 import badge_matmire from "../assets/images/badges/matmire.png";
 ---
 
-<header>
-    <div class="header-container">
+<header class="background-dark-shade border-light-accent border-2 border-solid w-full max-w-2xl lg:max-w-2xl sm:max-w-sm">
+    <div class="header-container background-dark-shade p-1 flex flex-wrap justify-between align-center">
       <div class="header-div header-title">
-        <h1>Gadget3D</h1>
-        <p>Contact: printing@gadget3d.ca</p>
+        <h1 class="text-5xl font-bold">Gadget3D</h1>
+        <p class="text-base">Contact: printing@gadget3d.ca</p>
       </div>
 
-      <div class="badge-container">
+      <div class="badge-container flex align-end justify-end">
         <SellerBadge img={badge_cinderwing}/>
         <SellerBadge img={badge_matmire}/>
       </div>

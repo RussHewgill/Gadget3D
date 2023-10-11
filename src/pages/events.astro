@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import { supabase } from '../supabase';
+
+const { data, error } = await supabase
+  .from('events')
+  .select();
+if (error) {
+  console.error(error)
+}
+
+---
+<BaseLayout pageTitle="Events"}>
+
+</BaseLayout>

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 // import Thing from '../components/Thing.astro';
 import CatalogItem from '../components/CatalogItem.astro';
+// import { tagFilters, getTagFilters } from '../scripts/tagFilters'
 
 import { supabase } from '../supabase';
 
@@ -12,7 +13,7 @@ if (error) {
   console.error(error)
 }
 
-// const tags = [...new Set(data.map((t) => t.tags).flat())];
+const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
 const things = [...new Set(data?.map((t) => t.item_name).flat())];
 
@@ -22,30 +23,84 @@ const pageTitle = "Catalog";
 
 <BaseLayout pageTitle={pageTitle}>
 
-  <!-- left side: tag list -->
-  <div class="catalog-filters-container">
-    <aside class="catalog-filters">
-      <h2>Filter by tag</h2>
+  <div class="flex">
+    <!-- left side: tag list -->
+    
+    <!-- <div class="catalog-filters-container w-1/2">
+      <aside class="catalog-filters">
+        <h2>Filter by tag</h2>
+
+        <div class="flex flex-col">
+          {uniqueTags.filter((t) => !(t === null)).map((t) => (
+            <button class="tag-filter-button" name={t}>
+              {t}
+            </button>
+          ))}
+        </div>
+
+        <script>
+          import { tagFilters, toggleTagFilters } from '../scripts/tagFilters.ts'
+
+          // function filterGrid() {
+          //   const buttons = document.querySelectorAll('.tag-filter-button');
+
+          //   buttons.forEach((item) => {
+          //     const itemTags = item.getAttribute('data-tags').split(' ');
+          //     const ts = tagFilters.get();
+
+          //     if (ts.size == 0) {
+          //       console.log("ts = 0");
+          //       item.style.display = 'flex';
+          //     } else {
+          //       console.log("ts != 0");
+          //       ts.forEach((tag) => {
+          //         if (itemTags.includes(tag)) {
+          //           item.style.display = 'flex';
+          //         } else {
+          //           item.style.display = 'none';
+          //         }
+          //       })
+          //     }
+
+          //   });
+
+          // }
+
+          const buttons = document.querySelectorAll('.tag-filter-button');
+          buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+              const v = toggleTagFilters(button.name);
+              if (v) {
+                button.classList.add('bg-light-accent');
+                // updateAddTag(button.name);
+              } else {
+                button.classList.remove('bg-light-accent');
+              }
+              // filterGrid();
+            });
+          });
+        </script>
+        
+      </aside>
+    </div> -->
+
+    <main class="catalog-main">
+      <!-- <h1>Catalog</h1> -->
+
+      <!-- todo: sort by -->
+
+      <!-- <select>
+        <option></option>
+      </select> -->
       
-    </aside>
-  </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        {things.map((t) => (
+          <CatalogItem item={data.find((item) => {
+            return (item.item_name === `${t}`);
+          })}/>
+        ))}
 
-  <main class="catalog-main">
-    
-    <!-- todo: sort by -->
-    <!-- <select>
-      <option></option>
-    </select> -->
-    
-    <div class="catalog-grid">
-
-      {things.map((t) => (
-        <CatalogItem item={data.find((item) => {
-          return item.item_name === `${t}`;
-        })}/>
-      ))}
-
-
+      </div>
     </div>
   </main>
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CategoryItem from '../components/CategoryItem.astro';
+import ProductList from '../components/ProductList.astro';
 
 import { supabase } from '../supabase';
 
@@ -25,43 +26,40 @@ if (error) {
 
 // const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
+import {fetchSquareCatalog, fetchSquareCatalogTest} from '../scripts/square.ts';
+import test_catalog from '../assets/sample_catalog.json';
+
+const catalog = await fetchSquareCatalog();
+// const catalog = await fetchSquareCatalogTest(test_catalog);
+// console.log("catalog = ", catalog);
+
+console.log("item = ", catalog.items[0]);
+
 ---
 
 <BaseLayout>
 
-  
-  <!-- {uniqueTags.map((t) => {
-    <p>{t}</p>
-  })} -->
-
-  <!-- {uniqueTags} -->
-
-  <!-- <script>
-    console.log({uniqueTags});
-  </script> -->
-
-  <!-- <script>
-    import { supabase } from '../supabase';
-    const { data, error } = await supabase
-      .from('tags')
-      .select();
-    data.map((t) => {
-      console.log(t.tag);
-    });
-  </script> -->
+  <ProductList catalog={catalog}/>
 
   <!-- <div>
-    {data.map((item) => (
-      <p>{item.tags.map((t) => (
-        <p>{t}</p>
-      ))}</p>
-    ))}
+    <div>
+      <h2 class="font-bold text-center">Artists</h2>
+      <div class="category-grid grid gap-2.5 lg:grid-cols-3">
+        {data.filter((item) => item.is_artist).map((item) => (
+          <CategoryItem item={item}/>
+          ))}
+    </div>
+  </div> -->
+    
+  <!-- <h2>Categories</h2> -->
+  <!-- <div>
+    <div class="category-grid grid gap-2.5 lg:grid-cols-3">
+      {data.filter((item) => !item.is_artist).map((item) => (
+        <CategoryItem item={item}/>
+        ))}
+    </div>
   </div> -->
 
-  <div class="category-grid">
-    {data.map((item) => (
-      <CategoryItem category={item.category} has_image={item.has_image} />
-      ))}
-  </div>
+  <!-- </div> -->
 
 </BaseLayout>

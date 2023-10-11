@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+// import type { sqItem, sqVariation } from '../scripts/square';
+const { product } = Astro.props;
+---
+
+<div class="catalog-item border-light-accent bg-dark-shade border-solid border-2 \
+flex flex-col justify-between \
+"
+>
+<!-- data-tags={item.tags} -->
+
+  <div class="w-full py-1 h-full flex items-center">
+    <Image
+      src={product.image_url === "" ? "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/tiny_spider.jpg" : product.image_url}
+      height={200}
+      width={200}
+      alt="test alt"
+    />
+  </div>
+
+  <div class="text-center">
+    <h3>{product.name}</h3>
+    <p>${product.price_range[0] == product.price_range[1] 
+          ? `${(product.price_range[0]/100).toFixed(2)}` 
+          : `${(product.price_range[0]/100).toFixed(2)} - ${(product.price_range[1]/100).toFixed(2)}`}</p>
+  </div>
+</div>

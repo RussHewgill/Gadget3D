@@ -14,30 +14,31 @@
   /* --color-dark-shade: #1F2926; */
 }
 
-* {
+/* * {
   color: var(--color-light-shade);
-}
+} */
 
-html {
+/* html {
   background-color: var(--color-dark-shade);
   font-family: sans-serif;
-}
+} */
 
-body {
+/* body {
   margin: 0 auto;
   width: 100%;
   max-width: 80ch;
   padding: 1rem;
   line-height: 1.5;
-}
+} */
 
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
 h1 {
   margin: 1rem 0;
-  font-size: 2.5rem;
+  /* font-size: 2.5rem; */
+  font-size: 5.5rem;
 }
 
 /* nav styles */
@@ -94,75 +95,60 @@ h1 {
 
 /* header styles */
 
-header {
+/* header {
   background-color: var(--color-dark-shade);
   border-color: var(--color-light-accent);
   border-width: 2px;
   border-style: solid;
-}
+} */
 
-.header-container {
-  /* background-color: #333; */
+/* .header-container {
   background-color: var(--color-dark-shade);
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; 
   align-items: center;
-}
+} */
 
-.header-div {
-  /* background-color: #366; */
-}
-.header-title {
-  /* background-color: #366; */
-}
-.header-badge {
-  /* background-color: #636; */
+/* .header-badge {
   align-items: end;
-}
-.badge-container {
-  /* padding: 10px; */
+} */
+/* .badge-container {
   display: flex;
   justify-content: space-between; 
   align-items: end;
-}
-.badge-container > div {
-  /* background-color: #366; */
+} */
+/* .badge-container > div {
   padding: 5px;
-  /* background-color: rgba(255, 255, 255, 0); */
   background-color: transparent;
-}
-img {
+} */
+/* img {
   background-color: transparent;
-}
+} */
 
-nav {
-  /* background-color: #666; */
-}
-
-.seller-badge {
+/* .seller-badge {
   width: 80px;
   height: 100%;
-}
+} */
 
 /* catalog grid styles */
 
 .catalog-grid {
   display: grid;
   gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .catalog-item {
   /* width: 100%; */
   /* width: 100px; */
-  padding: 10px;
   border-color: var(--color-light-accent);
   border-width: 2px;
   border-style: solid;
 }
 
-@media screen and (min-width: 636px) {
+/* @media screen and (min-width: 636px) {
   .catalog-grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -172,7 +158,7 @@ nav {
   .catalog-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
+} */
 
 /* category grid styles */
 

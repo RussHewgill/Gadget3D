@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-link {
+    @apply block text-center p-2.5 font-bold uppercase hover:bg-light-accent
+  }
+}

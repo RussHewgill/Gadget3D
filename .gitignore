@@ -5,3 +5,6 @@ node_modules/
 build-product/
 .DS_Store
 dist/
+sample_catalog.json
+.env.development
+.env.local

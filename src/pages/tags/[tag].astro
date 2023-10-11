@@ -3,30 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 import { supabase } from '../../supabase';
 
-// export async function getStaticPaths() {
-//     const { data, error } = await supabase
-//         .from('tags')
-//         .select('tag');
-//     if (error) {
-//       console.error(error)
-//     }
-//     // const allPosts = await Astro.glob('../things/*.md');
-
-//     const tags = [];
-
-//     data.map((t) => {
-//         tags.push({ params: { tag: t.tag }});
-//     });
-
-//     return tags;
-
-//     // return [
-//     //     // { params: { tag: "dragon" }, props: {posts: allPosts} },
-//     //     // { params: { tag: "cinderwing" }, props: {posts: allPosts} },
-//     //     // { params: { tag: "fidget" }, props: {posts: allPosts} },
-//     // ];
-// }
-
 export async function getStaticPaths() {
     const { data, error } = await supabase
         .from('things')
@@ -49,12 +25,6 @@ export async function getStaticPaths() {
     });
     
     return tags;
-
-    // return [
-    //     // { params: { tag: "dragon" }, props: {posts: allPosts} },
-    //     // { params: { tag: "cinderwing" }, props: {posts: allPosts} },
-    //     // { params: { tag: "fidget" }, props: {posts: allPosts} },
-    // ];
 }
 
 const { tag } = Astro.params;

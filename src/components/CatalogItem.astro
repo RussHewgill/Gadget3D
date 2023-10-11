@@ -5,19 +5,21 @@ const { item } = Astro.props;
 // const { image_url } = Astro.props;
 ---
 
-<div class="catalog-item">
-  <!-- {has_image && <Image
-    src={import(`../assets/images/things/${category}.jpg`)}
-    height={300}
-    alt="test alt"
-    />
-  } -->
-  <!-- {has_image && <Image
-    src={import(`../assets/images/things/${}.jpg`)}
-    height={300}
-    alt="test alt"
-    />
-  } -->
-  {item.item_name}
-  <p>${item.price}</p>
+<div class="catalog-item border-light-accent bg-dark-shade border-solid border-2 \
+flex flex-col justify-between \
+"
+  data-tags={item.tags}>
+
+  <div class="w-full py-1 h-full flex items-center">
+    <Image
+      src={import(`../assets/images/things/${item.image_url}`)}
+      height={200}
+      alt="test alt"
+      />
+  </div>
+
+  <div class="text-center">
+    <h3>{item.item_name}</h3>
+    <p>${item.price}</p>
+  </div>
 </div>
