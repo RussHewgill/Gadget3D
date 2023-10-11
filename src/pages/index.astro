@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CategoryItem from '../components/CategoryItem.astro';
-import ProductList from '../components/ProductList.astro';
+// import CategoryItem from '../components/CategoryItem.astro';
+// import ProductList from '../components/ProductList.astro';
 
 import { supabase } from '../supabase';
 
@@ -26,20 +26,18 @@ if (error) {
 
 // const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
-import {fetchSquareCatalog, fetchSquareCatalogTest} from '../scripts/square.ts';
-import test_catalog from '../assets/sample_catalog.json';
+// import {fetchSquareCatalog, fetchSquareCatalogTest} from '../scripts/square.ts';
+// import test_catalog from '../assets/sample_catalog.json';
 
-const catalog = await fetchSquareCatalog();
-// const catalog = await fetchSquareCatalogTest(test_catalog);
-// console.log("catalog = ", catalog);
+// const catalog = await fetchSquareCatalog();
+// // const catalog = await fetchSquareCatalogTest(test_catalog);
+// // console.log("catalog = ", catalog);
 
-console.log("item = ", catalog.items[0]);
+// console.log("item = ", catalog.items[0]);
 
 ---
 
 <BaseLayout>
-
-  <ProductList catalog={catalog}/>
 
   <!-- <div>
     <div>
