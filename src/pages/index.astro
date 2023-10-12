@@ -39,35 +39,20 @@ import FrontPageCard from '../components/FrontPageCard.astro';
 // import { Image } from 'astro:assets';
 // import img from "../assets/images/things/adult_gemstone.jpg";
 
-import { Picture } from 'astro:assets';
-
 ---
 
 <BaseLayout pageTitle="Gadget3D">
 
   <div class="category-grid grid gap-2.5 lg:grid-cols-3 py-4">
 
-    <!-- <div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2">
-      <h2 class="text-center text-2xl">
-        Dragons
-      </h2>
-      <Picture
-        src={import(`../assets/images/things/adult_gemstone.jpg`)}
-        height={300}
-        alt="test alt"
-        />
-    </div> -->
-
     <FrontPageCard title="Dragons" image={import(`../assets/images/things/adult_gemstone.jpg`)}/>
-    <!-- <FrontPageCard title="Dragons" image_url="../assets/images/things/adult_gemstone.jpg"/> -->
-    <!-- <FrontPageCard title="Fidgets" image_url="../assets/images/categories/Fidgets.jpg"/>
-    <FrontPageCard title="Critters" image_url="../assets/images/things/ferret.jpg"/>
-    <FrontPageCard title="Creepy Crawlies" image_url="../assets/images/things/tiny_spider.jpg"/>  -->
-
-    <!-- <FrontPageCard title="Dinosaurs" image_url="../assets/images/things/tiny_spider.jpg"/> -->
-    <!-- <FrontPageCard title="Frogs" image_url="../assets/images/things/tiny_spider.jpg"/> -->
-    <!-- <FrontPageCard title="Turtles" image_url="../assets/images/things/tiny_spider.jpg"/> -->
-    <!-- <FrontPageCard title="Keychains and Bag Charms" image_url="../assets/images/things/tiny_spider.jpg"/> -->
+    <FrontPageCard title="Fidgets" image={import(`../assets/images/categories/Fidgets.jpg`)}/>
+    <FrontPageCard title="Critters" image={import(`../assets/images/things/ferret.jpg`)}/>
+    <FrontPageCard title="Creepy Crawlies" image={import(`../assets/images/things/tiny_spider.jpg`)}/>
+    <!-- <FrontPageCard title="Dinosaurs" image={import(`../assets/images/things/ferret.jpg`)}/> -->
+    <!-- <FrontPageCard title="Frogs" image={import(`../assets/images/things/ferret.jpg`)}/> -->
+    <!-- <FrontPageCard title="Turtles" image={import(`../assets/images/things/ferret.jpg`)}/> -->
+    <!-- <FrontPageCard title="Keychains and Bag Charms" image={import(`../assets/images/things/ferret.jpg`)}/> -->
   </div>
 
   <!-- <div>
