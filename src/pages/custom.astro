@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FrontPageCard from '../components/FrontPageCard.astro';
+---
+<BaseLayout pageTitle="Custom Orders">
+  <div class="category-grid grid gap-2.5 lg:grid-cols-3 py-4">
+    <FrontPageCard 
+      title="Specific Colors" 
+      caption=""
+      />
+    <FrontPageCard 
+      title="Rapid Product Prototypes" 
+      image_url="../assets/images/misc/harmonic_drive.jpg"
+      caption="Available in PLA, PETG, TPU, and ABS/ASA"
+      />
+  </div>
+</BaseLayout>

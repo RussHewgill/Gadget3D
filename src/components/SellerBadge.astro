@@ -1,13 +1,17 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 const { img } = Astro.props;
+
+const width = 80;
+const height = width;
 ---
 
 <div class="header-badge align-end p-2 bg-transparent">
-  <Image
+  <Picture
     src={img}
     alt="Cinderwing Badge"
-    quality=max
-    class="seller-badge w-[60px] h-full"
+    width={width}
+    height={height}
+    class=`seller-badge w-[${width}px] h-[${height}px]`
     />
 </div>

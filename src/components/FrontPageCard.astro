@@ -1,0 +1,17 @@
+---
+import { Picture } from 'astro:assets';
+const { title, caption, image_url } = Astro.props;
+// import img from "../assets/images/things/adult_gemstone.jpg";
+---
+
+<div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2">
+  <h2 class="text-center text-2xl">
+    {title}
+  </h2>
+  {(image_url !== undefined && image_url !== "") && <Picture
+    src={import(`${image_url}`)}
+    height={300}
+    alt="test alt"
+    />}
+  {caption !== undefined && <p>{caption}</p>}
+</div>

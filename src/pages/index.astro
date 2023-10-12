@@ -2,12 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 // import CategoryItem from '../components/CategoryItem.astro';
 // import ProductList from '../components/ProductList.astro';
+import FrontPageCard from '../components/FrontPageCard.astro';
 
-import { supabase } from '../supabase';
+// import { supabase } from '../supabase';
 
-const { data, error } = await supabase
-  .from('categories')
-  .select();
+// const { data, error } = await supabase
+//   .from('categories')
+//   .select();
 
 // const { data, error } = await supabase
 //   .from('things')
@@ -20,9 +21,9 @@ const { data, error } = await supabase
   // .eq("uuid", "3119e8b4-c628-4694-87be-ca5b291045d3")
   // .single();
 
-if (error) {
-  console.error(error)
-}
+// if (error) {
+//   console.error(error)
+// }
 
 // const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
@@ -35,9 +36,23 @@ if (error) {
 
 // console.log("item = ", catalog.items[0]);
 
+// import { Image } from 'astro:assets';
+// import img from "../assets/images/things/adult_gemstone.jpg";
+
 ---
 
-<BaseLayout>
+<BaseLayout pageTitle="Gadget3D">
+
+  <div class="category-grid grid gap-2.5 lg:grid-cols-3 py-4">
+    <FrontPageCard title="Dragons" image_url="../assets/images/things/adult_gemstone.jpg"/>
+    <FrontPageCard title="Fidgets" image_url="../assets/images/categories/Fidgets.jpg"/>
+    <FrontPageCard title="Critters" image_url="../assets/images/things/ferret.jpg"/>
+    <FrontPageCard title="Creepy Crawlies" image_url="../assets/images/things/tiny_spider.jpg"/>
+    <!-- <FrontPageCard title="Dinosaurs" image_url="../assets/images/things/tiny_spider.jpg"/> -->
+    <!-- <FrontPageCard title="Frogs" image_url="../assets/images/things/tiny_spider.jpg"/> -->
+    <!-- <FrontPageCard title="Turtles" image_url="../assets/images/things/tiny_spider.jpg"/> -->
+    <!-- <FrontPageCard title="Keychains and Bag Charms" image_url="../assets/images/things/tiny_spider.jpg"/> -->
+  </div>
 
   <!-- <div>
     <div>
