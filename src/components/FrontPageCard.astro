@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-const { title, caption, image_url } = Astro.props;
+const { title, caption, image } = Astro.props;
 // import img from "../assets/images/things/adult_gemstone.jpg";
 ---
 
@@ -8,8 +8,9 @@ const { title, caption, image_url } = Astro.props;
   <h2 class="text-center text-2xl">
     {title}
   </h2>
-  {(image_url !== undefined && image_url !== "") && <Picture
-    src={import(`${image_url}`)}
+  <!-- src={import(`${image_url}`)} -->
+  {(image !== undefined) && <Picture
+    src={image}
     height={300}
     alt="test alt"
     />}

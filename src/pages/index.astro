@@ -47,7 +47,7 @@ import { Picture } from 'astro:assets';
 
   <div class="category-grid grid gap-2.5 lg:grid-cols-3 py-4">
 
-    <div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2">
+    <!-- <div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2">
       <h2 class="text-center text-2xl">
         Dragons
       </h2>
@@ -56,10 +56,11 @@ import { Picture } from 'astro:assets';
         height={300}
         alt="test alt"
         />
-    </div>
+    </div> -->
 
-    <!-- <FrontPageCard title="Dragons" image_url="../assets/images/things/adult_gemstone.jpg"/>
-    <FrontPageCard title="Fidgets" image_url="../assets/images/categories/Fidgets.jpg"/>
+    <FrontPageCard title="Dragons" image={import(`../assets/images/things/adult_gemstone.jpg`)}/>
+    <!-- <FrontPageCard title="Dragons" image_url="../assets/images/things/adult_gemstone.jpg"/> -->
+    <!-- <FrontPageCard title="Fidgets" image_url="../assets/images/categories/Fidgets.jpg"/>
     <FrontPageCard title="Critters" image_url="../assets/images/things/ferret.jpg"/>
     <FrontPageCard title="Creepy Crawlies" image_url="../assets/images/things/tiny_spider.jpg"/>  -->
 
