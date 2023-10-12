@@ -18,13 +18,13 @@ import ProductList from '../components/ProductList.astro';
 
 // const things = [...new Set(data?.map((t) => t.item_name).flat())];
 
-// import {fetchSquareCatalog } from '../scripts/square.ts';
+import {fetchSquareCatalog } from '../scripts/square.ts';
 
-// const catalog = await fetchSquareCatalog();
+const catalog = await fetchSquareCatalog();
 
-import {fetchSquareCatalogTest} from '../scripts/square.ts';
-import test_catalog from '../assets/sample_catalog.json';
-const catalog = await fetchSquareCatalogTest(test_catalog);
+// import {fetchSquareCatalogTest} from '../scripts/square.ts';
+// import test_catalog from '../assets/sample_catalog.json';
+// const catalog = await fetchSquareCatalogTest(test_catalog);
 
 ---
 
