@@ -4,7 +4,7 @@ import ProductCard from './ProductCard.astro';
 const { catalog } = Astro.props;
 ---
 <section>
-  <div class="container py-16 sm:py-20">
+  <div class="container py-12 sm:py-16">
     <h2 class="sr-only">Products</h2>
     <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
       {catalog.items.map((product) => <ProductCard product={product}/>)}

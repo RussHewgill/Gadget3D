@@ -5,17 +5,22 @@ const { product } = Astro.props;
 ---
 
 <div class="catalog-item border-light-accent bg-dark-shade border-solid border-2 \
-flex flex-col justify-between \
+flex flex-col justify-between items-center justify-items-center \
 "
 >
 <!-- data-tags={item.tags} -->
 
+  <!-- <div class="w-full py-1 h-full flex items-center align-middle justify-items-center">
+    <div class="justify-self-center self-center place-self-center">
+    </div>
+  </div> -->
+
   <div class="w-full py-1 h-full flex items-center">
     <Image
-      src={product.image_url === "" ? "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/tiny_spider.jpg" : product.image_url}
+      src={product.image_url === "" ? "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/placeholder.png" : product.image_url}
       height={200}
       width={200}
-      alt="test alt"
+      alt={product.name}
     />
   </div>
 

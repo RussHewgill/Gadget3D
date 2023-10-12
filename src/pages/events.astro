@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Event from '../components/Event.astro';
 
 import { supabase } from '../supabase';
 
@@ -12,5 +13,18 @@ if (error) {
 
 ---
 <BaseLayout pageTitle="Events"}>
-
+  <div relative overflow-x-auto>
+    <table class="w-full text-sm text-left">
+      <thead class="text-xs uppercase bg-light-accent">
+        <tr>
+          <th class=".event-th">Event</th>
+          <th class=".event-th">Date</th>
+          <th class=".event-th">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((event) => <Event event={event}/>)}
+      </tbody>
+    </table>
+  </div>
 </BaseLayout>
