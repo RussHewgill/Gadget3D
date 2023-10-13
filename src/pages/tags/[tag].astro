@@ -3,28 +3,39 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 import { supabase } from '../../supabase';
 
-export async function getStaticPaths() {
-    const { data, error } = await supabase
-        .from('things')
-        .select('tags');
-    if (error) {
-      console.error(error)
-    }
-    // const allPosts = await Astro.glob('../things/*.md');
+// export async function getStaticPaths() {
+//     const { data, error } = await supabase
+//         .from('things')
+//         .select('tags');
+//     if (error) {
+//       console.error(error)
+//     }
+//     // const allPosts = await Astro.glob('../things/*.md');
 
-    const tags = [];
+//     const tags = [];
 
-    // data.map((t) => {
-    //     tags.push({ params: { tag: t.tag }});
-    // });
+//     // data.map((t) => {
+//     //     tags.push({ params: { tag: t.tag }});
+//     // });
 
-    const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
+//     const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
-    uniqueTags.map((t) => {
-      tags.push({ params: { tag: t }});
-    });
+//     uniqueTags.map((t) => {
+//       tags.push({ params: { tag: t }});
+//     });
     
-    return tags;
+//     return tags;
+// }
+
+export async function getStaticPaths() {
+  return [
+    { params: { tag: "astro" } },
+    { params: { tag: "successes" } },
+    { params: { tag: "community" } },
+    { params: { tag: "blogging" } },
+    { params: { tag: "setbacks" } },
+    { params: { tag: "learning in public" } },
+  ];
 }
 
 const { tag } = Astro.params;

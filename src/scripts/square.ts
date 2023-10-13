@@ -19,6 +19,8 @@ export interface sqItem {
   image_url: string;
   variations: sqVariation[];
   price_range: [number, number];
+  is_archived: boolean;
+  is_deleted: boolean;
 }
 
 export interface sqVariation {
@@ -26,6 +28,7 @@ export interface sqVariation {
   name: string;
   price: [number, string];
   image_url: string;
+  is_deleted: boolean;
 }
 
 export async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> {
@@ -103,6 +106,7 @@ export async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> 
           name: v.itemVariationData.name,
           price: [price, v.itemVariationData.priceMoney.currency],
           image_url: v_image_url,
+          is_deleted: v.isDeleted,
         };
 
         // console.log("sv = ", sv);
@@ -119,12 +123,26 @@ export async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> 
     
     // console.log("wat 3");
 
+    // try {
+    //   if (item.itemData.isArchived !== true) {
+    //     console.log("archived: ", item.itemData.name);
+    //     console.log(item.itemData.isArchived);
+    //   } else {
+    //     // console.log("not archived: ", item.itemData.name);
+    //   }
+    //   // console.log("archived = ", item.itemData.isArchived);
+    // } catch (error) {
+    //   console.log("error: ", item.itemData.name);
+    // }
+    
     const x: sqItem = {
       id: item.id,
       name: item.itemData.name,
       variations: vs,
       image_url: image_url,
       price_range: [price_min, price_max],
+      is_archived: item.itemData.isArchived,
+      is_deleted: item.isDeleted,
     };
 
     // console.log("x = ", x);
@@ -161,112 +179,3 @@ export async function fetchSquareCatalog(): Promise<sqCatalog> {
     }
   }
 }
-
-export async function fetchSquareCatalogPrev(): Promise<sqCatalog> {
-  try {
-    // @ts-expect-error: unused variables
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { result, ...httpResponse } = await catalogApi.listCatalog(undefined, 'ITEM,IMAGE');
-    // Get more response info...
-    // const { statusCode, headers } = httpResponse;
-
-    // console.log(result);
-
-    const items: sqItem[] = [];
-    const images = new Map();
-
-    if (result.objects === undefined) {
-      throw new Error("result.objects is undefined");
-    }
-    
-    result.objects.forEach((item) => {
-      if (item.type !== 'IMAGE') {
-        return;
-      }
-      if (item.imageData === undefined) {
-        throw new Error("image has no imageData");
-      }
-      images.set(item.id, item.imageData.url);
-    });
-
-    // console.log("len = ", result.objects.length);
-
-    result.objects.forEach((item) => {
-      if (item.type !== 'ITEM') {
-        return;
-      }
-
-      const vs: sqVariation[] = [];
-
-      if (item.itemData?.variations === undefined || item.itemData?.variations === null) {
-        throw new Error("item has no variations");
-      }
-
-      item.itemData.variations.forEach((v) => {
-        
-        // console.log("wat v 1");
-        // console.log("v = ", v);
-        
-        // console.log("ids = ", v.itemVariationData);
-
-        let image_url = "";
-
-        if (v.itemVariationData?.imageIds !== undefined && v.itemVariationData?.imageIds?.length > 0) {
-          // console.log("wat 2");
-          const image_id = v.itemVariationData?.imageIds[0];
-          image_url = images.get(image_id);
-        } else {
-          // console.log("wat 3");
-          image_url = "";
-        }
-        
-        // console.log("wat v 2");
-
-        try {
-          const sv: sqVariation = {
-            id: v.id,
-            name: v.itemVariationData.name,
-            price: [v.itemVariationData.priceMoney.amount, v.itemVariationData.priceMoney.currency],
-            image_url: image_url,
-          };
-  
-          // console.log("sv = ", sv);
-          
-          vs.push(sv);
-        } catch (error) {
-          console.log("error = ", error);
-        }
-
-      });
-      
-      // console.log("wat 3");
-
-      const x: sqItem = {
-        id: item.id,
-        name: item.itemData.name,
-        variations: vs,
-      };
-
-      // console.log("x = ", x);
-      items.push(x);
-      // console.log(x.variations[0].image_url);
-      // console.log(x.variations[0].price);
-      // console.log(item);
-      // console.log(item.itemData);
-    });
-
-    return {
-      items: items,
-    };
-
-  } catch (error) {
-    if (error instanceof ApiError) {
-      // @ts-expect-error: unused variables
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const errors = error.result;
-      // const { statusCode, headers } = error;
-    }
-  }
-}
-
-// getLocations();

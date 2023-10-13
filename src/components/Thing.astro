@@ -1,26 +1,6 @@
 ---
-// import ThingProps from '../scripts/fetchthing.ts';
-
-const {uuid} = Astro.props;
-
-import { supabase } from '../supabase';
-
-const { data, error } = await supabase
-  .from('things')
-  .select()
-  .eq("uuid", uuid)
-  .single();
-
-if (error) {
-  console.error(error)
-}
+const { product } = Astro.props;
 ---
 <div>
-
-  <!-- <p>{data.uuid}</p> -->
-
-  <h1>{data.item_name}</h1>
-
-  <img src={data.image_url} alt={data.item_name} />
-
+  <p>{product.name}</p>
 </div>

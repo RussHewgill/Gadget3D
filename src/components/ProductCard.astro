@@ -17,15 +17,17 @@ flex flex-col justify-between items-center justify-items-center \
   </div> -->
 
   <div class="w-full py-1 h-full flex items-center">
-    <Picture
+    <a href=`/things/${product.name}`>
+      <Picture
       src={product.image_url === "" ? "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/placeholder.png" : product.image_url}
       height={200}
       width={200}
-      decoding="async"
-      loading="lazy"
       alt={product.name}
-    />
-  </div>
+      />
+      <!-- decoding="async"
+        loading="lazy" -->
+      </div>
+    </a>
 
   <div class="text-center">
     <h3>{product.name}</h3>
