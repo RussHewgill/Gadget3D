@@ -20,11 +20,7 @@ import ProductList from '../components/ProductList.astro';
 
 import {fetchSquareCatalog } from '../scripts/square.ts';
 
-// const catalog = await fetchSquareCatalog();
-
-import {fetchSquareCatalogTest} from '../scripts/square.ts';
-import test_catalog from '../assets/sample_catalog.json';
-const catalog = await fetchSquareCatalogTest(test_catalog);
+const catalog = await fetchSquareCatalog();
 
 ---
 

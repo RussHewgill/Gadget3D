@@ -1,18 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-import {fetchSquareCatalog } from '../../scripts/square';
-
-import {fetchSquareCatalogTest, type sqCatalog} from '../../scripts/square';
+import {fetchSquareCatalog, type sqCatalog} from '../../scripts/square';
 import test_catalog from '../../assets/sample_catalog.json';
 import Thing from '../../components/Thing.astro';
 
 export async function getStaticPaths() {
 
-  const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog);
-  // const catalog: sqCatalog = await fetchSquareCatalog();
-
-  // console.log("catalog type = ", typeof catalog);
+  const catalog: sqCatalog = await fetchSquareCatalog();
 
   const things = [];
 
@@ -27,6 +22,7 @@ export async function getStaticPaths() {
 
 const { thing } = Astro.params;
 const { product } = Astro.props;
+
 ---
 
 <BaseLayout pageTitle={product.name}>

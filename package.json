@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@astrojs/svelte": "^4.0.3",
     "@astrojs/tailwind": "^5.0.1",
     "@supabase/supabase-js": "^2.38.0",
     "astro": "^3.3.0",
     "date-fns": "^2.30.0",
     "nanostores": "^0.9.3",
     "square": "^31.0.0",
+    "svelte": "^4.2.1",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {

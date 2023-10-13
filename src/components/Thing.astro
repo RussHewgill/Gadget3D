@@ -1,6 +1,21 @@
 ---
+import { Picture } from 'astro:assets';
+
+// import Svelte from '../components/Svelte.svelte';
+import ThingGallery from "./ThingGallery.svelte";
+
 const { product } = Astro.props;
 ---
-<div>
-  <p>{product.name}</p>
+<div class="flex flex-row gap-10 pt-10">
+  <div class="max-w-lg"> 
+    <ThingGallery client:load image_urls={product.image_urls} />
+  </div>
+  <div class="max-w-lg w-full"> 
+    <h1 class="font-bold text-center">{product.name}</h1>
+    <h2 class="text-center">${product.price_range[0] == product.price_range[1] 
+      ? `${(product.price_range[0]/100).toFixed(2)}` 
+      : `${(product.price_range[0]/100).toFixed(2)} - ${(product.price_range[1]/100).toFixed(2)}`}</h2>
+
+  </div>
+
 </div>

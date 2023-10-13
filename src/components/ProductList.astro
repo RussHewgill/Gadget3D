@@ -9,15 +9,7 @@ const { catalog } = Astro.props;
     <h2 class="sr-only">Products</h2>
     <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
       {catalog.items.map((product: sqItem) => (
-        // <h3>{product.image_url}</h3>
-        // try {
-          // <ProductCard product={product}/>
-        // } catch (error) {
-        //   <h3>error: {product.name}</h3>
-        // }
           (!product.is_archived && !product.is_deleted) && <ProductCard product={product}/>
-          // product.is_archived ? <h3>archived</h3> : <h3>not archived</h3>
-          // product.is_deleted ? <h3>deleted</h3> : <h3>not deleted</h3>
         )
         )}
     </div>
