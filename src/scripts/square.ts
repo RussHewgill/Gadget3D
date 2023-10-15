@@ -1,6 +1,9 @@
 
 import { Client, Environment, ApiError } from "square";
-// import test_catalog from '../assets/sample_catalog.json';
+import test_catalog from '../assets/sample_catalog.json';
+import test_images from '../assets/sample_images.json';
+
+// import fs from 'fs';
 
 const client = new Client({
   accessToken: import.meta.env.SQUARE_ACCESS_TOKEN,
@@ -34,20 +37,20 @@ export interface sqVariation {
 
 export async function fetchSquareCatalog(): Promise<sqCatalog> {
 
-  // const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog);
+  const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images);
 
-  const catalog: sqCatalog = await fetchSquareCatalog2();
+  // const catalog: sqCatalog = await fetchSquareCatalog2();
 
   return catalog;
 }
 
-async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> {
+async function fetchSquareCatalogTest(catalog: JSON, image_list: JSON): Promise<sqCatalog> {
   const objects = catalog.objects;
 
   const items: sqItem[] = [];
   const images = new Map();
 
-  objects.forEach((item) => {
+  image_list.objects.forEach((item) => {
     if (item.type !== 'IMAGE' || item.is_deleted) {
       return;
     }
@@ -81,7 +84,9 @@ async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> {
       // console.log(image_id);
       item.itemData?.imageIds.forEach((id) => {
         const image_url = images.get(id);
-        image_urls.push(image_url);
+        if (image_url !== undefined) {
+          image_urls.push(image_url);
+        }
       });
     }
 
@@ -100,7 +105,9 @@ async function fetchSquareCatalogTest(catalog: JSON): Promise<sqCatalog> {
         // v_image_url = images.get(image_id);
         v.itemVariationData?.imageIds.forEach((id) => {
           const image_url = images.get(id);
-          v_image_urls.push(image_url);
+          if (image_url !== undefined) {
+            v_image_urls.push(image_url);
+          }
         });
       // } else {
         // console.log("wat 3");
@@ -181,11 +188,33 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
   try {
     // @ts-expect-error: unused variables
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { result, ...httpResponse } = await catalogApi.listCatalog(undefined, 'ITEM,IMAGE');
+    const { result: result_catalog, ...httpResponse } = await catalogApi.listCatalog(
+      // undefined, 'ITEM,IMAGE'
+      undefined, 'ITEM'
+      );
     // Get more response info...
     // const { statusCode, headers } = httpResponse;
 
-    return fetchSquareCatalogTest(result);
+    const { result: result_images} = await client.catalogApi.searchCatalogObjects({
+      objectTypes: [
+        'IMAGE'
+      ],
+      includeDeletedObjects: false,
+      includeRelatedObjects: true
+    });
+
+    // console.log("writing catalog");
+    // const catalog_string = JSON.stringify(result_catalog);
+    // console.log(catalog_string);
+    
+    // console.log("writing images");
+    // const images_string = JSON.stringify(result_images);
+    // console.log(images_string);
+    
+    // fs.writeFileSync("./sample_catalog.json", catalog_string);
+    // console.log("done writing catalog");
+
+    return fetchSquareCatalogTest(result_catalog, result_images);
 
   } catch (error) {
     if (error instanceof ApiError) {

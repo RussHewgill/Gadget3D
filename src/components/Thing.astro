@@ -1,21 +1,24 @@
 ---
 import { Picture } from 'astro:assets';
+import { Debug } from 'astro:components';
 
 // import Svelte from '../components/Svelte.svelte';
 import ThingGallery from "./ThingGallery.svelte";
 
 const { product } = Astro.props;
 ---
-<div class="flex flex-row gap-10 pt-10">
+<div class="flex flex-col lg:flex-row gap-10 pt-10">
   <div class="max-w-lg"> 
-    <ThingGallery client:load image_urls={product.image_urls} />
+    <ThingGallery client:load image_urls={
+      product.image_urls.concat(product.variations.flatMap((v) => v.image_urls))
+      } />
   </div>
-  <div class="max-w-lg w-full"> 
-    <h1 class="font-bold text-center">{product.name}</h1>
-    <h2 class="text-center">${product.price_range[0] == product.price_range[1] 
+
+  <div class="w-auto p-10"> 
+    <h1 class="text-2xl font-bold text-center">{product.name}</h1>
+    <h2 class="text-lg pt-4 text-center">${product.price_range[0] == product.price_range[1] 
       ? `${(product.price_range[0]/100).toFixed(2)}` 
       : `${(product.price_range[0]/100).toFixed(2)} - ${(product.price_range[1]/100).toFixed(2)}`}</h2>
-
   </div>
 
 </div>
