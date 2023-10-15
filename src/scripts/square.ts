@@ -37,9 +37,9 @@ export interface sqVariation {
 
 export async function fetchSquareCatalog(): Promise<sqCatalog> {
 
-  const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images);
+  // const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images);
 
-  // const catalog: sqCatalog = await fetchSquareCatalog2();
+  const catalog: sqCatalog = await fetchSquareCatalog2();
 
   return catalog;
 }
