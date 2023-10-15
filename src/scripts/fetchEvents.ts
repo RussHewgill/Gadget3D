@@ -18,7 +18,8 @@ export interface marketEvent {
 export async function fetchEvents(): string[] {
   const { data, error } = await supabase
   .from('events')
-  .select();
+  .select()
+  .order('date_start', { ascending: true });
   if (error) {
     console.error(error)
   }
@@ -39,7 +40,9 @@ export async function fetchEvents(): string[] {
       poster_link: item.poster_link,
     });
 
-  });  
+  });
+
+  // events.sort
 
   return events;
 
