@@ -1,6 +1,6 @@
 
 import { Client, Environment, ApiError } from "square";
-import test_catalog from '../assets/sample_catalog.json';
+// import test_catalog from '../assets/sample_catalog.json';
 
 const client = new Client({
   accessToken: import.meta.env.SQUARE_ACCESS_TOKEN,
