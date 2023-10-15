@@ -1,7 +1,7 @@
 
 import { Client, Environment, ApiError } from "square";
-import test_catalog from '../assets/sample_catalog.json';
-import test_images from '../assets/sample_images.json';
+// import test_catalog from '../assets/sample_catalog.json';
+// import test_images from '../assets/sample_images.json';
 
 // import fs from 'fs';
 
