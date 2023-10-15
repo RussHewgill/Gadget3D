@@ -15,7 +15,7 @@ export interface marketEvent {
   poster_link: string;
 }
 
-export async function fetchEvents(): string[] {
+export async function fetchEvents(): marketEvent[] {
   const { data, error } = await supabase
   .from('events')
   .select()

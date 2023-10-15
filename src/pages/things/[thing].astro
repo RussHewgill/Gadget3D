@@ -13,13 +13,16 @@ export async function getStaticPaths() {
   catalog.items.forEach((product) => {
     // things.push({ params: { thing: product.name, product: product }});
     // things.push({ params: { thing: product.name }});
+    // if (product.name === undefined || product.name === null) {
+    // }
+    // console.log("product: ", product);
     things.push({ params: { thing: product.name }, props: { product: product }});
   });
 
   return things;
 }
 
-const { thing } = Astro.params;
+// const { thing } = Astro.params;
 const { product } = Astro.props;
 
 ---
