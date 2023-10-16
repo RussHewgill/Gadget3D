@@ -1,20 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-// import Event from '../components/Event.astro';
-
-// import { supabase } from '../supabase';
-
-// const { data, error } = await supabase
-//   .from('events')
-//   .select();
-// if (error) {
-//   console.error(error)
-// }
-
+import Events from '../components/Events.svelte';
 ---
 
-<BaseLayout pageTitle="Events"}>
+<BaseLayout pageTitle="Events">
 
+  <Events client:load/>
+
+<!-- 
   <div class="relative overflow-x-auto py-8">
     <table id="eventTable" class="w-full text-sm text-left">
       <thead class="text-xs uppercase bg-light-accent">
@@ -39,8 +32,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const events = await fetchEvents();
     
     const body = document.getElementById("eventTableBody");
-
-
 
     events.forEach((event) => {
       console.log(event.name);
@@ -84,24 +75,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       body.appendChild(row);
     });
 
-
-
-  </script>
+  </script> -->
 </BaseLayout>
-
-<!-- <BaseLayout pageTitle="Events"}>
-  <div relative overflow-x-auto>
-    <table class="w-full text-sm text-left">
-      <thead class="text-xs uppercase bg-light-accent">
-        <tr>
-          <th class=".event-th">Event</th>
-          <th class=".event-th">Date</th>
-          <th class=".event-th">Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((event) => <Event event={event}/>)}
-      </tbody>
-    </table>
-  </div>
-</BaseLayout> -->

@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 
   const catalog: sqCatalog = await fetchSquareCatalog();
 
-  const things = [];
+  const things: Object[] = [];
 
   catalog.items.forEach((product) => {
     // things.push({ params: { thing: product.name, product: product }});

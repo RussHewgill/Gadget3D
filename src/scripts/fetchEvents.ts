@@ -1,9 +1,9 @@
 
-// const { parse, format } = require('date-fns');
 import { parse, format } from 'date-fns';
 import { supabase } from '../supabase';
 
 export interface marketEvent {
+  id: number;
   organizer: string;
   name: string;
   location: string;
@@ -15,6 +15,7 @@ export interface marketEvent {
   poster_link: string;
 }
 
+// export async function fetchEvents(): Promise<marketEvent[]> {
 export async function fetchEvents(): marketEvent[] {
   const { data, error } = await supabase
   .from('events')
@@ -29,6 +30,7 @@ export async function fetchEvents(): marketEvent[] {
   data.forEach((item) => {
 
     events.push({
+      id: item.id,
       organizer: item.organizer,
       name: item.name,
       location: item.location,

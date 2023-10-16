@@ -44,7 +44,7 @@ export async function fetchSquareCatalog(): Promise<sqCatalog> {
   return catalog;
 }
 
-async function fetchSquareCatalogTest(catalog: JSON, image_list: JSON): Promise<sqCatalog> {
+async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Promise<sqCatalog> {
   const objects = catalog.objects;
 
   const items: sqItem[] = [];

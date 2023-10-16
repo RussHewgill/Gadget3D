@@ -9,7 +9,10 @@
   .event-th {
     @apply px-6 py-3 text-left font-semibold
   }
+  .event-tr {
+    /* @apply even:bg-gray-200 odd:bg-white */
+  }
   .event-td {
-    @apply px-6 py-4 whitespace-nowrap
+    @apply px-1.5 py-1 whitespace-nowrap
   }
 }
