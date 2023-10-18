@@ -4,8 +4,10 @@ const { title, caption, image } = Astro.props;
 // import img from "../assets/images/things/adult_gemstone.jpg";
 ---
 
-<div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2">
-  <h2 class="text-center text-2xl">
+<div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2\
+            flex flex-col items-center">
+  <h2 class="text-2xl">
+  <!-- <h2 class="text-center text-2xl"> -->
     {title}
   </h2>
   <!-- src={import(`${image_url}`)} -->
@@ -13,6 +15,7 @@ const { title, caption, image } = Astro.props;
     src={image}
     height={300}
     alt="test alt"
+    class=""
     />}
   {caption !== undefined && <p>{caption}</p>}
 </div>

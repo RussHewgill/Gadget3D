@@ -25,6 +25,7 @@ export interface sqItem {
   price_range: [number, number];
   is_archived: boolean;
   is_deleted: boolean;
+  // tags: string[];
 }
 
 export interface sqVariation {
@@ -44,11 +45,16 @@ export async function fetchSquareCatalog(): Promise<sqCatalog> {
   return catalog;
 }
 
-async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Promise<sqCatalog> {
+async function fetchSquareCatalogTest(
+  catalog: Object, 
+  image_list: Object, 
+  category_list: Object
+  ): Promise<sqCatalog> {
   const objects = catalog.objects;
 
   const items: sqItem[] = [];
   const images = new Map();
+  const categories = new Map();
 
   image_list.objects.forEach((item) => {
     if (item.type !== 'IMAGE' || item.is_deleted) {
@@ -61,6 +67,22 @@ async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Prom
     }
     images.set(item.id, item.imageData.url);
   });
+
+  category_list.objects.forEach((item) => {
+    if (item.type !== 'CATEGORY' || item.is_deleted) {
+      return;
+    }
+    if (item.categoryData === undefined) {
+      console.log(item);
+      throw new Error("category has no categoryData");
+    }
+    categories.set(item.id, item.categoryData.name);
+  });
+
+  // console.log("categories:");  
+  // categories.forEach((v, k) => {
+  //   console.log(k, " = ", v);
+  // });
   
   objects.forEach((item) => {
     if (item.type !== 'ITEM' || item.is_deleted) {
@@ -80,8 +102,6 @@ async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Prom
     let image_urls: string[] = [];
 
     if (item.itemData?.imageIds !== undefined) {
-      // const image_ids = item.itemData?.imageIds;
-      // console.log(image_id);
       item.itemData?.imageIds.forEach((id) => {
         const image_url = images.get(id);
         if (image_url !== undefined) {
@@ -144,19 +164,17 @@ async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Prom
       }
 
     });
-    
-    // console.log("wat 3");
+
+    // let tags: string[] = [];
 
     // try {
-    //   if (item.itemData.isArchived !== true) {
-    //     console.log("archived: ", item.itemData.name);
-    //     console.log(item.itemData.isArchived);
-    //   } else {
-    //     // console.log("not archived: ", item.itemData.name);
-    //   }
-    //   // console.log("archived = ", item.itemData.isArchived);
+    //   tags = item
+    //     .customAttributeValues["Square:931b5305-805f-46be-8fb0-525cb701f294"]
+    //     .stringValue
+    //     .split(',');
+    //     console.log(item.itemData.name, " = ", tags);
     // } catch (error) {
-    //   console.log("error: ", item.itemData.name);
+    //   // console.log("item tags error: ", error);
     // }
     
     const x: sqItem = {
@@ -167,17 +185,11 @@ async function fetchSquareCatalogTest(catalog: Object, image_list: Object): Prom
       price_range: [price_min, price_max],
       is_archived: item.itemData.isArchived,
       is_deleted: item.isDeleted,
+      // tags: tags,
     };
 
-    // console.log("x = ", x);
     items.push(x);
-    // console.log(x.variations[0].image_url);
-    // console.log(x.variations[0].price);
-    // console.log(item);
-    // console.log(item.itemData);
   });
-
-  // console.log(items.length);
 
   return {
     items: items
@@ -203,6 +215,16 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
       includeRelatedObjects: true
     });
 
+    // const { result: result_categories} = await client.catalogApi.searchCatalogObjects({
+    //   objectTypes: [
+    //     'CATEGORY'
+    //   ],
+    //   includeDeletedObjects: false,
+    //   includeRelatedObjects: true
+    // });
+    
+    const result_categories = { objects: [] };
+
     // console.log("writing catalog");
     // const catalog_string = JSON.stringify(result_catalog);
     // console.log(catalog_string);
@@ -214,7 +236,7 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
     // fs.writeFileSync("./sample_catalog.json", catalog_string);
     // console.log("done writing catalog");
 
-    return fetchSquareCatalogTest(result_catalog, result_images);
+    return fetchSquareCatalogTest(result_catalog, result_images, result_categories);
 
   } catch (error) {
     if (error instanceof ApiError) {

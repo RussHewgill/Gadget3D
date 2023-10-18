@@ -3,7 +3,8 @@
   export let product: sqItem;
 
   let selected_variation = -1;
-  let all_image_urls = product.image_urls.concat(product.variations.flatMap((v) => v.image_urls));
+  const all_image_urls = 
+    [...new Set(product.image_urls.concat(product.variations.flatMap((v) => v.image_urls)))];
 
   let image_urls: string[] = all_image_urls;
 
@@ -30,29 +31,37 @@
     }
   }
 
-  let image_thumbnail_css = ' max-w-[100px] cursor-pointer m-1.5';
+  // let image_thumbnail_css = ' max-w-[100px] cursor-pointer m-1.5';
+  let image_thumbnail_css = ' cursor-pointer m-1.5';
 </script>
 
 <div class="flex flex-col lg:flex-row gap-10 pt-10">
   <div class="max-w-lg"> 
 
-    <div class="w-full p-4 flex flex-col items-center">
-      <div class="mt-4 flex space-x-4">
+    
+    <!-- Thumbnails -->
+    <div class="flex flex-wrap">
+      {#if image_urls.length == 0}
+         <p>No images</p>
+      {:else}
         {#each image_urls as image, index}
           <!-- svelte-ignore a11y-click-events-have-key-events -->
           <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-          <img
-            src={image}
-            alt={image}
-            class={(index === selectedImage 
-              ? 'selected' 
-              : '') + image_thumbnail_css}
-            on:click={() => changeImage(index)}
-            />
+          <div class="w-1/3 lg:w-1/4 p-1">
+            <img
+              src={image}
+              alt={image}
+              class={(index === selectedImage 
+                ? 'selected' 
+                : '')  + image_thumbnail_css}
+              on:click={() => changeImage(index)}
+              />
+          </div>
         {/each}
-      </div>
+      {/if}
     </div>
     
+    <!-- Selected Image -->
     <img 
       src={image_urls[selectedImage]} 
       alt={image_urls[selectedImage]}
@@ -60,6 +69,7 @@
       />
   </div>
 
+  <!-- Description -->
   <div class="w-auto p-10"> 
     <h1 class="text-2xl font-bold text-center">{product.name}</h1>
     <h2 class="text-lg pt-4 text-center">${product.price_range[0] == product.price_range[1] 

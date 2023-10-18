@@ -1,5 +1,5 @@
 
-import { parse, format } from 'date-fns';
+import { parse, format, differenceInDays } from 'date-fns';
 import { supabase } from '../supabase';
 
 export interface marketEvent {
@@ -27,20 +27,27 @@ export async function fetchEvents(): marketEvent[] {
 
   const events: marketEvent[] = [];
 
+  // const current_date = new Date();
+
   data.forEach((item) => {
 
-    events.push({
-      id: item.id,
-      organizer: item.organizer,
-      name: item.name,
-      location: item.location,
-      date_start: parse(item.date_start, "yyyy-MM-dd", new Date()),
-      date_end: parse(item.date_end, "yyyy-MM-dd", new Date()),
-      time_start: parse(item.time_start, "HH:mm:ss", new Date()),
-      time_end: parse(item.time_end, "HH:mm:ss", new Date()),
-      event_link: item.event_link,
-      poster_link: item.poster_link,
-    });
+    const date_start = parse(item.date_start, "yyyy-MM-dd", new Date());
+    const days_until = differenceInDays(date_start, new Date());
+
+    if (days_until >= 0) {
+      events.push({
+        id: item.id,
+        organizer: item.organizer,
+        name: item.name,
+        location: item.location,
+        date_start: date_start,
+        date_end: parse(item.date_end, "yyyy-MM-dd", new Date()),
+        time_start: parse(item.time_start, "HH:mm:ss", new Date()),
+        time_end: parse(item.time_end, "HH:mm:ss", new Date()),
+        event_link: item.event_link,
+        poster_link: item.poster_link,
+      });
+    }
 
   });
 
