@@ -1,7 +1,8 @@
 
 import { Client, Environment, ApiError } from "square";
-// import test_catalog from '../assets/sample_catalog.json';
-// import test_images from '../assets/sample_images.json';
+import test_catalog from '../assets/sample_catalog.json';
+import test_images from '../assets/sample_images.json';
+import test_categories from '../assets/sample_categories.json';
 
 // import fs from 'fs';
 
@@ -15,11 +16,13 @@ const { catalogApi } = client;
 
 export interface sqCatalog {
   items: sqItem[];
+  categories: Map<string, string>;
 }
 
 export interface sqItem {
   id: string;
   name: string;
+  category: string;
   image_urls: string[];
   variations: sqVariation[];
   price_range: [number, number];
@@ -38,9 +41,9 @@ export interface sqVariation {
 
 export async function fetchSquareCatalog(): Promise<sqCatalog> {
 
-  // const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images);
+  const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images, test_categories);
 
-  const catalog: sqCatalog = await fetchSquareCatalog2();
+  // const catalog: sqCatalog = await fetchSquareCatalog2();
 
   return catalog;
 }
@@ -176,10 +179,15 @@ async function fetchSquareCatalogTest(
     // } catch (error) {
     //   // console.log("item tags error: ", error);
     // }
+
+    // let category 
+    
+    // console.log(item.itemData.name, " = ", item.itemData.categoryId);
     
     const x: sqItem = {
       id: item.id,
       name: item.itemData.name,
+      category: categories.get(item.itemData.categoryId),
       variations: vs,
       image_urls: image_urls,
       price_range: [price_min, price_max],
@@ -192,7 +200,8 @@ async function fetchSquareCatalogTest(
   });
 
   return {
-    items: items
+    items: items,
+    categories: categories,
   };
 }
 
@@ -215,15 +224,15 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
       includeRelatedObjects: true
     });
 
-    // const { result: result_categories} = await client.catalogApi.searchCatalogObjects({
-    //   objectTypes: [
-    //     'CATEGORY'
-    //   ],
-    //   includeDeletedObjects: false,
-    //   includeRelatedObjects: true
-    // });
+    const { result: result_categories} = await client.catalogApi.searchCatalogObjects({
+      objectTypes: [
+        'CATEGORY'
+      ],
+      includeDeletedObjects: false,
+      includeRelatedObjects: true
+    });
     
-    const result_categories = { objects: [] };
+    // const result_categories = { objects: [] };
 
     // console.log("writing catalog");
     // const catalog_string = JSON.stringify(result_catalog);

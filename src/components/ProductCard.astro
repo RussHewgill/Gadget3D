@@ -9,8 +9,9 @@ const { product } = Astro.props;
 flex flex-col justify-between items-center justify-items-center \
 lg:max-h-60 lg:h-60
 "
+  data-category={product.category}
 >
-  <div class="lg:w-full py-1 flex items-center">
+  <div class="lg:w-full p-1 flex items-center">
 
     <a href=`/things/${product.name}`>
       <Picture
@@ -24,10 +25,11 @@ lg:max-h-60 lg:h-60
       />
       <!-- decoding="async"
         loading="lazy" -->
-      </div>
-    </a>
+      </a>
+    </div>
 
   <div class="text-center">
+    <!-- <h2>{product.category}</h2> -->
     <h3>{product.name}</h3>
     <p>${product.price_range[0] == product.price_range[1] 
           ? `${(product.price_range[0]/100).toFixed(2)}` 

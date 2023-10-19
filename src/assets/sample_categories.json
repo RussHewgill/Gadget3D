@@ -1,0 +1,142 @@
+{
+  "objects": [
+    {
+      "type": "CATEGORY",
+      "id": "ND2DZ5AUVG44ERF326F3RAUL",
+      "updated_at": "2023-07-31T00:32:16.265Z",
+      "created_at": "2023-07-31T00:32:16.265Z",
+      "version": 1690763536265,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Flexi",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "H6VIEZVIWC2XOUMPDMVF63OT",
+      "updated_at": "2023-07-31T00:32:31.041Z",
+      "created_at": "2023-07-31T00:32:31.041Z",
+      "version": 1690763551041,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Fidget",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "3LGMVL2GULXHUJPIJYAPPLHF",
+      "updated_at": "2023-08-03T22:32:48.788Z",
+      "created_at": "2023-08-03T22:32:48.788Z",
+      "version": 1691101968788,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Keychain",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "3G47DYLTASVSZKJA7P3QIPFR",
+      "updated_at": "2023-08-03T22:41:19.247Z",
+      "created_at": "2023-08-03T22:41:19.247Z",
+      "version": 1691102479247,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Magnet",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "D2CRHJ4M3ZSC5CNDDS6RVYFA",
+      "updated_at": "2023-08-03T22:48:04.307Z",
+      "created_at": "2023-08-03T22:48:04.307Z",
+      "version": 1691102884307,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Decoration",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "V2O6HNSXHFYRM67GYTQZ6KIW",
+      "updated_at": "2023-08-03T22:49:45.326Z",
+      "created_at": "2023-08-03T22:49:45.326Z",
+      "version": 1691102985326,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Topo Map",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "BZB4LKCP7MBF53MBMR7R26QE",
+      "updated_at": "2023-08-19T19:38:06.547Z",
+      "created_at": "2023-08-19T19:38:06.547Z",
+      "version": 1692473886547,
+      "is_deleted": false,
+      "catalog_v1_ids": [
+        {
+          "catalog_v1_id": "63521faa-6c4d-4eb8-80ec-dbb2fca320e1",
+          "location_id": "L7BRPZHRD7G33"
+        }
+      ],
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Household",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "EM3ZHWFBXLIPEWUMJO5BSGWZ",
+      "updated_at": "2023-09-08T20:46:26.091Z",
+      "created_at": "2023-09-08T20:46:26.091Z",
+      "version": 1694205986091,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Cinder",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "2CYM3YMUOJPJLSBVWKT7DO7U",
+      "updated_at": "2023-10-07T00:39:18.815Z",
+      "created_at": "2023-10-07T00:39:18.815Z",
+      "version": 1696639158815,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "MatMire",
+        "is_top_level": true
+      }
+    },
+    {
+      "type": "CATEGORY",
+      "id": "7M6I325XNGOCLM3KTBUNY7UD",
+      "updated_at": "2023-10-18T17:19:43.967Z",
+      "created_at": "2023-10-18T16:54:00.857Z",
+      "version": 1697649583967,
+      "is_deleted": false,
+      "present_at_all_locations": true,
+      "categoryData": {
+        "name": "Dragon",
+        "is_top_level": false,
+        "root_category": "EM3ZHWFBXLIPEWUMJO5BSGWZ"
+      }
+    }
+  ],
+  "latest_time": "2023-10-19T05:00:17.384Z"
+}

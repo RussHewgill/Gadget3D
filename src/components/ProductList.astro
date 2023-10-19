@@ -1,10 +1,16 @@
 ---
 import type { sqItem } from '../scripts/square';
-import ProductCard from './ProductCard.astro';
+// import ProductCard from './ProductCard.astro';
+import ProductPage from './ProductPage.svelte';
 // import type { sqCatalog } from '../scripts/square';
 const { catalog } = Astro.props;
 ---
-<section>
+<!-- Category Filters -->
+<!-- <section>
+</section> -->
+
+<!-- Product Grid -->
+<!-- <section>
   <div class="container py-12 sm:py-16">
     <h2 class="sr-only">Products</h2>
     <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
@@ -14,4 +20,6 @@ const { catalog } = Astro.props;
         )}
     </div>
   </div>
-</section>
+</section> -->
+
+<ProductPage client:load catalog={catalog}/>
