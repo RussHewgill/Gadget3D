@@ -14,7 +14,7 @@ const { title, caption, image } = Astro.props;
   {(image !== undefined) && <Picture
     src={image}
     height={300}
-    alt="test alt"
+    alt={title}
     class=""
     />}
   {caption !== undefined && <p>{caption}</p>}

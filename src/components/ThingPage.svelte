@@ -82,6 +82,14 @@
       {/each}
     </select>
 
+    <!-- <div>
+      {#each product.category_ids as [cat_id, cat]}
+         <p>
+          {cat}
+         </p>
+      {/each}
+    </div> -->
+
   </div>
 </div>
 

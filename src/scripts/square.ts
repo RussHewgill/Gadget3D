@@ -1,8 +1,9 @@
 
 import { Client, Environment, ApiError } from "square";
-import test_catalog from '../assets/sample_catalog.json';
-import test_images from '../assets/sample_images.json';
-import test_categories from '../assets/sample_categories.json';
+// import test_catalog from '../assets/sample_catalog.json';
+// import test_images from '../assets/sample_images.json';
+// import test_categories from '../assets/sample_categories.json';
+// import test_subcategories from '../assets/sample_subcategories.json';
 
 // import fs from 'fs';
 
@@ -15,7 +16,8 @@ const client = new Client({
 const { catalogApi } = client;
 
 export interface sqCatalog {
-  items: sqItem[];
+  // items: sqItem[];
+  items: Map<string, sqItem>;
   categories: Map<string, string>;
 }
 
@@ -23,6 +25,9 @@ export interface sqItem {
   id: string;
   name: string;
   category: string;
+  category_id_main: string;
+  // category_ids: string[];
+  category_ids: Map<string,string>;
   image_urls: string[];
   variations: sqVariation[];
   price_range: [number, number];
@@ -41,9 +46,9 @@ export interface sqVariation {
 
 export async function fetchSquareCatalog(): Promise<sqCatalog> {
 
-  const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images, test_categories);
+  // const catalog: sqCatalog = await fetchSquareCatalogTest(test_catalog, test_images, test_categories);
 
-  // const catalog: sqCatalog = await fetchSquareCatalog2();
+  const catalog: sqCatalog = await fetchSquareCatalog2();
 
   return catalog;
 }
@@ -51,14 +56,16 @@ export async function fetchSquareCatalog(): Promise<sqCatalog> {
 async function fetchSquareCatalogTest(
   catalog: Object, 
   image_list: Object, 
-  category_list: Object
+  category_list: Object,
+  category_items: Map<string, string[]>, // category_id, [matching item ids]
   ): Promise<sqCatalog> {
-  const objects = catalog.objects;
 
-  const items: sqItem[] = [];
+  // const items: sqItem[] = [];
+  const items: Map<string, sqItem> = new Map();
   const images = new Map();
-  const categories = new Map();
+  const categories: Map<string, string> = new Map();
 
+  console.log("sorting images");  
   image_list.objects.forEach((item) => {
     if (item.type !== 'IMAGE' || item.is_deleted) {
       return;
@@ -71,6 +78,7 @@ async function fetchSquareCatalogTest(
     images.set(item.id, item.imageData.url);
   });
 
+  console.log("sorting categories");  
   category_list.objects.forEach((item) => {
     if (item.type !== 'CATEGORY' || item.is_deleted) {
       return;
@@ -87,116 +95,133 @@ async function fetchSquareCatalogTest(
   //   console.log(k, " = ", v);
   // });
   
-  objects.forEach((item) => {
-    if (item.type !== 'ITEM' || item.is_deleted) {
-      return;
-    }
+  console.log("sorting items");
 
-    let price_min = 10000000;
-    let price_max = 0;
+  // catalog.items.forEach((item) => {
+  //   // if (item.type !== 'ITEM' || item.is_deleted || item.is_archived) {
+  //   //   return;
+  //   // }
+  //   console.log("item = ", item.id);    
+  // });
+  
+  catalog.items.forEach((item) => {
+    try {
+      if (item.type !== 'ITEM' || item.is_deleted || item.is_archived) {
+        return;
+      }
+      // console.log("item.id = ", item.id);      
 
-    const vs: sqVariation[] = [];
+      let price_min = 10000000;
+      let price_max = 0;
 
-    if (item.itemData.variations === undefined || item.itemData.variations === null) {
-      console.log("item = ", item);
-      throw new Error("item has no variations");
-    }
+      const vs: sqVariation[] = [];
 
-    let image_urls: string[] = [];
+      if (item.itemData === undefined) {
+        console.log("Item has no ItemData");
+        throw new Error("Item has no ItemData");
+      }
 
-    if (item.itemData?.imageIds !== undefined) {
-      item.itemData?.imageIds.forEach((id) => {
-        const image_url = images.get(id);
-        if (image_url !== undefined) {
-          image_urls.push(image_url);
-        }
-      });
-    }
+      if (item.itemData.variations === undefined || item.itemData.variations === null) {
+        console.log("item = ", item);
+        throw new Error("item has no variations");
+      }
 
-    item.itemData.variations.forEach((v) => {
-      
-      // console.log("wat v 1");
-      // console.log("v = ", v);
-      
-      // console.log("ids = ", v.itemVariationData);
+      let image_urls: string[] = [];
 
-      let v_image_urls: string[] = [];
-
-      if (v.itemVariationData?.imageIds !== undefined && v.itemVariationData?.imageIds?.length > 0) {
-        // console.log("wat 2");
-        // const image_id = v.itemVariationData?.imageIds[0];
-        // v_image_url = images.get(image_id);
-        v.itemVariationData?.imageIds.forEach((id) => {
+      if (item.itemData?.imageIds !== undefined) {
+        item.itemData?.imageIds.forEach((id) => {
           const image_url = images.get(id);
           if (image_url !== undefined) {
-            v_image_urls.push(image_url);
+            image_urls.push(image_url);
           }
         });
-      // } else {
-        // console.log("wat 3");
-        // v_image_url = "";
       }
 
-      if (v.itemVariationData.priceMoney.currency !== "CAD") {
-        throw new Error("price not in CAD");
-      }
+      item.itemData.variations.forEach((v) => {
+        if (v.itemVariationData.priceMoney?.currency !== undefined) {
 
-      const price = Number(v.itemVariationData.priceMoney.amount);
-      price_min = Math.min(price_min, price);
-      price_max = Math.max(price_max, price);
+          let v_image_urls: string[] = [];
+
+          if (v.itemVariationData?.imageIds !== undefined && v.itemVariationData?.imageIds?.length > 0) {
+            // console.log("wat 2");
+            // const image_id = v.itemVariationData?.imageIds[0];
+            // v_image_url = images.get(image_id);
+            v.itemVariationData?.imageIds.forEach((id) => {
+              const image_url = images.get(id);
+              if (image_url !== undefined) {
+                v_image_urls.push(image_url);
+              }
+            });
+          // } else {
+            // console.log("wat 3");
+            // v_image_url = "";
+          }
+
+
+          if (v.itemVariationData.priceMoney.currency !== "CAD") {
+            throw new Error("price not in CAD");
+          }
+
+          const price = Number(v.itemVariationData.priceMoney.amount);
+          price_min = Math.min(price_min, price);
+          price_max = Math.max(price_max, price);
+          
+          // console.log("wat v 2");
+
+          try {
+            const sv: sqVariation = {
+              id: v.id,
+              name: v.itemVariationData.name,
+              price: [price, v.itemVariationData.priceMoney.currency],
+              image_urls: v_image_urls,
+              is_deleted: v.isDeleted,
+            };
+
+            // console.log("sv = ", sv);
+            
+            vs.push(sv);
+          } catch (error) {
+            console.log("item = ", item);
+            console.log("v = ", v);
+            
+            console.log("error = ", error);
+          }
+        }
+      });
+
+      const category_ids = new Map();
       
-      // console.log("wat v 2");
+      const x: sqItem = {
+        id: item.id,
+        name: item.itemData.name,
+        category: categories.get(item.itemData.categoryId),
+        category_id_main: item.itemData.categoryId,
+        category_ids: category_ids,
+        variations: vs,
+        image_urls: image_urls,
+        price_range: [price_min, price_max],
+        is_archived: item.itemData.isArchived,
+        is_deleted: item.isDeleted,
+        // tags: tags,
+      };
 
-      try {
-        const sv: sqVariation = {
-          id: v.id,
-          name: v.itemVariationData.name,
-          price: [price, v.itemVariationData.priceMoney.currency],
-          image_urls: v_image_urls,
-          is_deleted: v.isDeleted,
-        };
+      // items.push(x);
+      items.set(item.id, x);
+            
+    } catch (error) {
+        console.log("item error = ", item.id, ": ", error);        
+    }
+  });
 
-        // console.log("sv = ", sv);
-        
-        vs.push(sv);
-      } catch (error) {
-        console.log("item = ", item);
-        console.log("v = ", v);
-        
-        console.log("error = ", error);
+  console.log("setting sub-categories");
+  category_items.forEach((cat_items, cat_id) => {
+    cat_items.forEach((item_id) => {
+      const item = items.get(item_id);
+      const category = categories.get(cat_id);
+      if (item !== undefined && category !== undefined) {
+        item.category_ids.set(cat_id, category)
       }
-
     });
-
-    // let tags: string[] = [];
-
-    // try {
-    //   tags = item
-    //     .customAttributeValues["Square:931b5305-805f-46be-8fb0-525cb701f294"]
-    //     .stringValue
-    //     .split(',');
-    //     console.log(item.itemData.name, " = ", tags);
-    // } catch (error) {
-    //   // console.log("item tags error: ", error);
-    // }
-
-    // let category 
-    
-    // console.log(item.itemData.name, " = ", item.itemData.categoryId);
-    
-    const x: sqItem = {
-      id: item.id,
-      name: item.itemData.name,
-      category: categories.get(item.itemData.categoryId),
-      variations: vs,
-      image_urls: image_urls,
-      price_range: [price_min, price_max],
-      is_archived: item.itemData.isArchived,
-      is_deleted: item.isDeleted,
-      // tags: tags,
-    };
-
-    items.push(x);
   });
 
   return {
@@ -209,13 +234,23 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
   try {
     // @ts-expect-error: unused variables
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { result: result_catalog, ...httpResponse } = await catalogApi.listCatalog(
-      // undefined, 'ITEM,IMAGE'
-      undefined, 'ITEM'
-      );
+    // const { result: result_catalog, ...httpResponse } = await catalogApi.listCatalog(
+    //   // undefined, 'ITEM,IMAGE'
+    //   undefined, 'ITEM'
+    //   );
+
+    console.log("fetching catalog...");
+    const { result: result_catalog } = await client.catalogApi.searchCatalogItems({
+      productTypes: [
+        'REGULAR'
+      ],
+      archivedState: 'ARCHIVED_STATE_NOT_ARCHIVED'
+    });
+
     // Get more response info...
     // const { statusCode, headers } = httpResponse;
 
+    console.log("fetching images...");
     const { result: result_images} = await client.catalogApi.searchCatalogObjects({
       objectTypes: [
         'IMAGE'
@@ -224,6 +259,7 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
       includeRelatedObjects: true
     });
 
+    console.log("fetching categories...");
     const { result: result_categories} = await client.catalogApi.searchCatalogObjects({
       objectTypes: [
         'CATEGORY'
@@ -232,6 +268,36 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
       includeRelatedObjects: true
     });
     
+    const category_items: Map<string, string[]> = new Map();
+
+    console.log("fetching sub-categories...");
+    for (const category of result_categories.objects) {
+      try {        
+        const { result } = await client.catalogApi.searchCatalogItems({
+          categoryIds: [
+            category.id
+          ],
+          productTypes: [
+            'REGULAR'
+          ],
+          archivedState: 'ARCHIVED_STATE_NOT_ARCHIVED'
+        });
+
+        const items: string[] = [];
+        // const items = result.items?.map((item) => item.id );
+        
+        result.items?.map((item) => items.push(item.id));
+
+        category_items.set(category.id, items);
+
+      } catch (error) {
+        console.log("fetching category items error: ", error);
+      }
+    }
+
+    // const x = category_items.get("7M6I325XNGOCLM3KTBUNY7UD");
+    // console.log("x = ", x);
+
     // const result_categories = { objects: [] };
 
     // console.log("writing catalog");
@@ -245,8 +311,14 @@ async function fetchSquareCatalog2(): Promise<sqCatalog> {
     // fs.writeFileSync("./sample_catalog.json", catalog_string);
     // console.log("done writing catalog");
 
-    return fetchSquareCatalogTest(result_catalog, result_images, result_categories);
+    const catalog = fetchSquareCatalogTest(
+      result_catalog, 
+      result_images, 
+      result_categories,
+      category_items,
+      );
 
+    return catalog;
   } catch (error) {
     if (error instanceof ApiError) {
       // @ts-expect-error: unused variables

@@ -6,7 +6,7 @@
 
   let filters: Set<string> = new Set();
 
-  filters.add("H6VIEZVIWC2XOUMPDMVF63OT");
+  // filters.add("ND2DZ5AUVG44ERF326F3RAUL");
 
   function toggleFilter(id: string) {
     if (filters.has(id)) {
@@ -16,56 +16,51 @@
       console.log("toggling filter on: ", id);
       filters.add(id);
     }
+    // Trigger reactivity update
+    filters = new Set(filters);
   }
 
   // const css_selected = "border-2 border-solid border-light-accent";
-  const css_selected = "bg-light-accent";
+  const css_deselected = "w-full text-left";
+  const css_selected = css_deselected + " bg-light-accent";
 
 </script>
 
 <div class="flex">
   <!-- Filters -->
   <section class="w-1/6 px-4">
-    <h2>Filters</h2>
-    <ul>
+    <button on:click={() => {filters = new Set()}}>
+      Clear Filters
+    </button>
+    <h2 class="text-center">Filters</h2>
+    <ul class="w-full">
       {#each Array.from(catalog.categories.entries()) as [id, cat] (id)}
-
-      <li>
-      <!-- <li class={(filters.has(id) ? css_selected : "")}> -->
-
-        <button 
+      <li class="w-full">
+        <button
           on:click={() => toggleFilter(id)}
-          class:highlighted={filters.has(id)}
+          class={(filters.has(id)) ? css_selected : css_deselected}
           >
           {cat}
         </button>
       </li>
-
-      <!-- <li class={(filters.has(id) ? css_selected : "")}>
-        <button on:click={() => toggleFilter(id)}>
-          <p>{filters.has(id)}</p>
-        </button>
-      </li> -->
       {/each}
     </ul>
   </section>
+
   <!-- Product Grid -->
   <section class="w-5/6 px-4">
     <div class="container py-12 sm:py-16">
       <h2 class="sr-only">Products</h2>
       <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
         {#each catalog.items as product}
-          {#if (!product.is_archived && !product.is_deleted)}
-            <ProductCard product={product}/>
+          {#if (!product[1].is_archived 
+                && !product[1].is_deleted 
+                )}
+            <ProductCard product={product[1]}/>
           {/if}
         {/each}
+        <!-- && (filters.size == 0 || filters.has(product[1].category_id)) -->
       </div>
     </div>
   </section>
 </div>
-
-<style>
-  .highlighted {
-    background-color: yellow;
-  }
-</style>

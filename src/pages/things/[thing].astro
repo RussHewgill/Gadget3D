@@ -8,9 +8,13 @@ export async function getStaticPaths() {
 
   const catalog: sqCatalog = await fetchSquareCatalog();
 
+  // // TUJN2LRODIMAB6LY3D45F43G
+  // const item = catalog.items.get("TUJN2LRODIMAB6LY3D45F43G");
+  // console.log("item categories = ", item.category_ids);
+
   const things: Object[] = [];
 
-  catalog.items.forEach((product) => {
+  catalog.items.forEach((product, _id) => {
     // things.push({ params: { thing: product.name, product: product }});
     // things.push({ params: { thing: product.name }});
     // if (product.name === undefined || product.name === null) {
@@ -18,6 +22,8 @@ export async function getStaticPaths() {
     // console.log("product: ", product);
     things.push({ params: { thing: product.name }, props: { product: product }});
   });
+  
+  // console.log(item);
 
   return things;
 }
