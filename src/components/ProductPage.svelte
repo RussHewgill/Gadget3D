@@ -29,7 +29,7 @@
 
 <div class="flex">
   <!-- Filters -->
-  <section class="w-1/6 px-4">
+  <!-- <section class="w-1/6 px-4">
     <button on:click={() => {filters = new Set()}}>
       Clear Filters
     </button>
@@ -46,10 +46,26 @@
       </li>
       {/each}
     </ul>
-  </section>
+  </section> -->
 
   <!-- Product Grid -->
+
   <section class="w-5/6 px-4">
+    <div class="container py-12 sm:py-16">
+      <h2 class="sr-only">Products</h2>
+      <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
+        {#each catalog.items as product}
+          {#if (!product[1].is_archived 
+                && !product[1].is_deleted
+                )}
+            <ProductCard product={product[1]}/>
+          {/if}
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="w-5/6 px-4">
     <div class="container py-12 sm:py-16">
       <h2 class="sr-only">Products</h2>
       <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
@@ -66,5 +82,6 @@
         {/each}
       </div>
     </div>
-  </section>
+  </section> -->
+
 </div>
