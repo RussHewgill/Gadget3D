@@ -27,7 +27,7 @@
 
 </script>
 
-<div class="flex">
+<div class="flex justify-center items-center">
   <!-- Filters -->
   <!-- <section class="w-1/6 px-4">
     <button on:click={() => {filters = new Set()}}>
