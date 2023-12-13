@@ -15,4 +15,7 @@
   .event-td {
     @apply px-1.5 py-1 whitespace-nowrap
   }
+  /* a {
+    @apply underline
+  } */
 }

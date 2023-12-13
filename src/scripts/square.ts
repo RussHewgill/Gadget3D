@@ -205,13 +205,17 @@ async function fetchSquareCatalogTest(
         // tags: tags,
       };
 
-      // items.push(x);
-      items.set(item.id, x);
+      if (price_max !== 0) {
+        // items.push(x);
+        items.set(item.id, x);
+      }
             
     } catch (error) {
         console.log("item error = ", item.id, ": ", error);        
     }
   });
+
+  const empty_categories: Set<string> = new Set(categories.keys());
 
   console.log("setting sub-categories");
   category_items.forEach((cat_items, cat_id) => {
@@ -220,8 +224,13 @@ async function fetchSquareCatalogTest(
       const category = categories.get(cat_id);
       if (item !== undefined && category !== undefined) {
         item.category_ids.set(cat_id, category)
+        empty_categories.delete(cat_id);
       }
     });
+  });
+
+  empty_categories.forEach((cat_id) => {
+    categories.delete(cat_id);
   });
 
   return {

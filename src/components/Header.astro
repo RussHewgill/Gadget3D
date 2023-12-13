@@ -1,10 +1,15 @@
 ---
-// import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Navigation from './Navigation.astro';
 import SellerBadge from './SellerBadge.astro';
 
 import badge_cinderwing from "../assets/images/badges/cinderwing.png";
 import badge_matmire from "../assets/images/badges/matmire.png";
+
+import icon_insta from "../assets/icons/insta.svg";
+
+const icon_width = 40;
+const icon_height = 40;
 ---
 
 <header class="background-dark-shade border-light-accent border-2 border-solid w-full max-w-2xl lg:max-w-2xl sm:max-w-sm">
@@ -12,7 +17,29 @@ import badge_matmire from "../assets/images/badges/matmire.png";
       <div class="header-div header-title">
         <h1 class="text-5xl font-bold">Gadget3D</h1>
         <h2 class="py-2 font-bold">3D Printed Toys and Gifts</h2>
-        <p class="text-base">Contact: printing@gadget3d.ca</p>
+        <p class="text-base">Contact: 
+          <a href="mailto:printing@gadget3d.ca">
+            printing@gadget3d.ca
+          </a>
+        </p>
+
+        <!-- <p class="flex items-center"> -->
+          <a class="flex items-center" href="https://www.instagram.com/gadget3d_printing/">
+            <Picture
+              src={icon_insta}
+              alt="Cinderwing Badge"
+              width={icon_width}
+              height={icon_height}
+              class=`w-[${icon_width}px] h-[${icon_height}px]`
+            />@gadget3d_printing
+          </a>
+        <!-- </p> -->
+
+
+        <!-- <p class="text-base">Instagram: 
+
+        </p> -->
+
       </div>
 
       <div class="badge-container flex align-end justify-end">

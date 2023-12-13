@@ -6,7 +6,8 @@
 
   let filters: Set<string> = new Set();
 
-  // filters.add("ND2DZ5AUVG44ERF326F3RAUL");
+  // filters.add("EM3ZHWFBXLIPEWUMJO5BSGWZ"); // cinder
+  // filters.add("7M6I325XNGOCLM3KTBUNY7UD"); // dragon
 
   function toggleFilter(id: string) {
     if (filters.has(id)) {
@@ -55,11 +56,14 @@
         {#each catalog.items as product}
           {#if (!product[1].is_archived 
                 && !product[1].is_deleted 
+                && (filters.size == 0 
+                    || filters.has(product[1].category_id) 
+                    || [...product[1].category_ids.keys()].some(id => filters.has(id))
+                    )
                 )}
             <ProductCard product={product[1]}/>
           {/if}
         {/each}
-        <!-- && (filters.size == 0 || filters.has(product[1].category_id)) -->
       </div>
     </div>
   </section>
