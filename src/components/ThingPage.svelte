@@ -89,6 +89,11 @@
          </p>
       {/each}
     </div> -->
+    <div class="py-3">
+      <p>
+        {product.description}
+      </p>
+    </div>
 
   </div>
 </div>

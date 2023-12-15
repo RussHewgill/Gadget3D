@@ -34,6 +34,7 @@ export interface sqItem {
   is_archived: boolean;
   is_deleted: boolean;
   // tags: string[];
+  description: string;
 }
 
 export interface sqVariation {
@@ -125,6 +126,11 @@ async function fetchSquareCatalogTest(
         console.log("item = ", item);
         throw new Error("item has no variations");
       }
+      
+      let description = "";
+      if (item.itemData.description !== undefined) {
+        description = item.itemData.description;
+      }
 
       let image_urls: string[] = [];
 
@@ -203,6 +209,7 @@ async function fetchSquareCatalogTest(
         is_archived: item.itemData.isArchived,
         is_deleted: item.isDeleted,
         // tags: tags,
+        description: description,
       };
 
       if (price_max !== 0) {

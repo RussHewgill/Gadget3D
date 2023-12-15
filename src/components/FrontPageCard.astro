@@ -1,21 +1,24 @@
 ---
 import { Picture } from 'astro:assets';
-const { title, caption, image } = Astro.props;
+const { title, caption, image, link } = Astro.props;
 // import img from "../assets/images/things/adult_gemstone.jpg";
 ---
 
 <div class="w-full p-2.5 border-light-accent bg-dark-shade border-solid border-2\
             flex flex-col items-center">
-  <h2 class="text-2xl">
-  <!-- <h2 class="text-center text-2xl"> -->
-    {title}
-  </h2>
-  <!-- src={import(`${image_url}`)} -->
-  {(image !== undefined) && <Picture
-    src={image}
-    height={300}
-    alt={title}
-    class=""
-    />}
-  {caption !== undefined && <p>{caption}</p>}
+  <a href={link}>
+
+    <h2 class="text-2xl">
+    <!-- <h2 class="text-center text-2xl"> -->
+      {title}
+    </h2>
+    <!-- src={import(`${image_url}`)} -->
+    {(image !== undefined) && <Picture
+      src={image}
+      height={300}
+      alt={title}
+      class=""
+      />}
+    {caption !== undefined && <p>{caption}</p>}
+  </a>
 </div>
