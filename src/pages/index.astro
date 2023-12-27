@@ -1,36 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-// import CategoryItem from '../components/CategoryItem.astro';
-// import ProductList from '../components/ProductList.astro';
 import FrontPageCard from '../components/FrontPageCard.astro';
-
-// import { supabase } from '../supabase';
-
-// const { data, error } = await supabase
-//   .from('categories')
-//   .select();
-
-// const { data, error } = await supabase
-//   .from('things')
-//   .select();
-
-// const { data, error } = await supabase
-//   .from('tags')
-//   .select('tag');
-
-  // .eq("uuid", "3119e8b4-c628-4694-87be-ca5b291045d3")
-  // .single();
-
-// if (error) {
-//   console.error(error)
-// }
 
 // const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
 
-// import {fetchSquareCatalog, fetchSquareCatalogTest} from '../scripts/square.ts';
+import {fetchSquareCatalog} from '../scripts/square2.ts';
 // import test_catalog from '../assets/sample_catalog.json';
 
-// const catalog = await fetchSquareCatalog();
+const catalog = await fetchSquareCatalog();
 // // const catalog = await fetchSquareCatalogTest(test_catalog);
 // // console.log("catalog = ", catalog);
 

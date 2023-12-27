@@ -13,7 +13,7 @@ const client = new Client({
   environment: Environment.Production,
 });
 
-const { catalogApi } = client;
+// const { catalogApi } = client;
 
 export interface sqCatalog {
   // items: sqItem[];
@@ -110,7 +110,7 @@ async function fetchSquareCatalogTest(
       if (item.type !== 'ITEM' || item.is_deleted || item.is_archived) {
         return;
       }
-      console.log("item.id = ", item.id); 
+      // console.log("item.id = ", item.id); 
 
       let price_min = 10000000;
       let price_max = 0;
