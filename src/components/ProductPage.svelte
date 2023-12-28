@@ -4,6 +4,8 @@
 
   export let catalog: sqCatalog;
 
+  let catalog_list = Array.from(catalog.items.values());
+
   let filters: Set<string> = new Set();
 
   // filters.add("EM3ZHWFBXLIPEWUMJO5BSGWZ"); // cinder
@@ -21,67 +23,86 @@
     filters = new Set(filters);
   }
 
+  function clearFilters() {
+    console.log("clearing filters");
+    filters = new Set();
+  }
+
+  let sortOption = 'name'; // Default sort option
+
+  function handleSortChange() {
+    switch(sortOption) {
+      // case 'popular':
+      //   // TODO
+      //   break;
+      case 'name':
+        console.log("sorting by name");
+        // catalog_list.sort((a, b) => a.name.localeCompare(b.name));
+        catalog_list = [...catalog_list].sort((a, b) => a.name.localeCompare(b.name));
+        break;
+        case 'price':
+        console.log("sorting by price");
+        // catalog_list.sort((a, b) => a.price_range[0] - b.price_range[0]);
+        catalog_list = [...catalog_list].sort((a, b) => a.price_range[0] - b.price_range[0]);
+        break;
+      // Add more cases as needed
+    }
+  }
+
   // const css_selected = "border-2 border-solid border-light-accent";
-  const css_deselected = "w-full text-left";
+  const css_deselected = "w-full text-left px-2 rounded";
   const css_selected = css_deselected + " bg-light-accent";
 
 </script>
 
-<div class="flex justify-center items-center">
+<div class="flex justify-center">
   <!-- Filters -->
-  <!-- <section class="w-1/6 px-4">
-    <button on:click={() => {filters = new Set()}}>
+  <section class="filters-sidebar w-1/6 px-4">
+
+    <select bind:value={sortOption} on:change={handleSortChange}>
+      <option value="name">Sort by Name</option>
+      <option value="price">Sort by Price</option>
+      <!-- Add more options as needed -->
+    </select>
+
+    <!-- <button class="rounded px-4 py-2 my-1" on:click={() => {filters = new Set()}}> -->
+    <button class="rounded px-4 py-2 my-1" on:click={() => clearFilters()}>
       Clear Filters
     </button>
-    <h2 class="text-center">Filters</h2>
+    <!-- <h2 class="text-center text-2xl font-bold my-2">Filters</h2> -->
+    <hr class="my-2"/>
     <ul class="w-full">
       {#each Array.from(catalog.categories.entries()) as [id, cat] (id)}
-      <li class="w-full">
+      <li class="w-full my-1">
         <button
           on:click={() => toggleFilter(id)}
           class={(filters.has(id)) ? css_selected : css_deselected}
           >
-          {cat}
+          {cat.name}
         </button>
       </li>
       {/each}
     </ul>
-  </section> -->
+  </section>
 
   <!-- Product Grid -->
-
-  <section class="w-5/6 px-4">
+  <section class="catalog-grid w-5/6 px-4">
     <div class="container py-12 sm:py-16">
       <h2 class="sr-only">Products</h2>
       <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
-        {#each catalog.items as product}
-          {#if (!product[1].is_archived 
-                && !product[1].is_deleted
+        {#each catalog_list as product}
+          {#if (!product.is_archived
+                && !product.is_deleted
+                && (filters.size == 0
+                    || filters.has(product.category_id_main)
+                    || [...product.category_ids.keys()].some(id => filters.has(id))
+                    )
                 )}
-            <ProductCard product={product[1]}/>
+            <ProductCard product={product}/>
           {/if}
         {/each}
       </div>
     </div>
   </section>
-
-  <!-- <section class="w-5/6 px-4">
-    <div class="container py-12 sm:py-16">
-      <h2 class="sr-only">Products</h2>
-      <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
-        {#each catalog.items as product}
-          {#if (!product[1].is_archived 
-                && !product[1].is_deleted 
-                && (filters.size == 0 
-                    || filters.has(product[1].category_id) 
-                    || [...product[1].category_ids.keys()].some(id => filters.has(id))
-                    )
-                )}
-            <ProductCard product={product[1]}/>
-          {/if}
-        {/each}
-      </div>
-    </div>
-  </section> -->
 
 </div>

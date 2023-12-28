@@ -72,15 +72,20 @@
   <!-- Description -->
   <div class="w-auto p-10"> 
     <h1 class="text-2xl font-bold text-center">{product.name}</h1>
+
+    <!-- <h2 class="text-lg pt-4 text-center">TODO: add categories</h2> -->
+
     <h2 class="text-lg pt-4 text-center">${product.price_range[0] == product.price_range[1] 
       ? `${(product.price_range[0]/100).toFixed(2)}` 
       : `${(product.price_range[0]/100).toFixed(2)} - ${(product.price_range[1]/100).toFixed(2)}`}</h2>
 
-    <select on:change={handleSelect} class="text-dark-shade">
-      {#each variations as v, index}
-        <option value={index-1}>{v}</option>
-      {/each}
-    </select>
+    {#if variations.length > 1}
+        <select on:change={handleSelect} class="text-dark-shade">
+          {#each variations as v, index}
+            <option value={index-1}>{v}</option>
+          {/each}
+        </select>
+    {/if}
 
     <!-- <div>
       {#each product.category_ids as [cat_id, cat]}

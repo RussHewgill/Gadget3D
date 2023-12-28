@@ -9,3 +9,4 @@ sample_catalog.json
 .env.development
 .env.local
 src/assets/images/things/placeholder - Copy.png
+*.bak

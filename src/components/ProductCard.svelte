@@ -3,12 +3,23 @@
 
   export let product: sqItem;
 
-  const product_link = `/things/${product.name}`
+  // const product_link = `/things/${product.name}`
 
-  let product_img = "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/placeholder.png";
-  if (product.image_urls[0] !== undefined) {
-    product_img = product.image_urls[0];
+  // let product_img = "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/placeholder.png";
+  // if (product.image_urls[0] !== undefined) {
+  //   product_img = product.image_urls[0];
+  // }
+
+  let product_link: string;
+  let product_img: string;
+
+  $: {
+    product_link = `/things/${product.name}`;
+    product_img = product.image_urls[0] !== undefined
+      ? product.image_urls[0]
+      : "https://raw.githubusercontent.com/RussHewgill/Gadget3D/main/src/assets/images/things/placeholder.png";
   }
+
 </script>
 
 <div class="catalog-item border-light-accent bg-dark-shade border-solid border-2 \
