@@ -1,9 +1,8 @@
 import { 
   Client, 
   Environment, 
-  ApiError, 
   type CatalogObject, 
-  type SearchCatalogObjectsRequest, 
+  // type SearchCatalogObjectsRequest, 
   // type SearchCatalogObjectsResponse 
 } from "square";
 
@@ -16,13 +15,14 @@ const client = new Client({
 export interface sqCatalog {
   items: Map<string, sqItem>;
   categories: Map<string, sqCategory>; // id -> category
+  categories_rev: Map<string, string>; // name -> id
 }
 
 export interface sqItem {
   id: string;
   name: string;
-  category: string;
-  category_id_main: string;
+  category: sqCategory;
+  // category_id_main: string;
   // category_ids: string[];
   category_ids: Map<string,string>; // id -> name
   image_urls: string[];
@@ -60,7 +60,7 @@ function parseCatalog(
 
   console.log("sorting images");
   catalog.forEach((item) => {
-    if (item.type !== 'IMAGE' || item.is_deleted) {
+    if (item.type !== 'IMAGE' || item.isDeleted) {
       return;
     }
     if (item.imageData === undefined) {
@@ -71,6 +71,34 @@ function parseCatalog(
     images.set(item.id, item.imageData.url);
   });
   console.log(images.size, " images");
+
+
+  console.log("sorting categories");
+  catalog.forEach((item) => {
+    try {
+      if (item.type !== 'CATEGORY' || item.isDeleted) {
+        return;
+      }
+
+      if (item.categoryData === undefined) {
+        console.log("category has no categoryData");
+        throw new Error("category has no categoryData");
+      }
+
+      let category: sqCategory = {
+        id: item.id,
+        name: item.categoryData?.name ?? "",
+        image_url: item.categoryData.imageIds !== undefined ? images.get(item.categoryData.imageIds) : undefined,
+        is_deleted: item.isDeleted ?? false,
+        // parent: item.categoryData.parentCategory,
+      };
+
+      categories.set(item.id, category);
+    } catch (error) {
+      console.log("category error = ", item.id, ": ", error);    
+    }
+  });
+  console.log("categories.size = ", categories.size);
 
   console.log("sorting items");
   // console.log(catalog.length);
@@ -110,30 +138,29 @@ function parseCatalog(
       
       let description = "";
       if (item.itemData.description !== undefined) {
-        description = item.itemData.description;
+        description = item.itemData?.description ?? "";
       }
 
       let image_urls: string[] = [];
 
-      if (item.itemData?.imageIds !== undefined) {
-        item.itemData?.imageIds.forEach((id) => {
-          const image_url = images.get(id);
-          if (image_url !== undefined) {
-            image_urls.push(image_url);
-          }
-        });
-      }
+
+      item.itemData?.imageIds?.forEach((id) => {
+        const image_url = images.get(id);
+        if (image_url !== undefined) {
+          image_urls.push(image_url);
+        }
+      });
 
       item.itemData.variations.forEach((v) => {
-        if (v.itemVariationData.priceMoney?.currency !== undefined) {
+        if (v.itemVariationData?.priceMoney?.currency !== undefined) {
 
           let v_image_urls: string[] = [];
 
-          if (v.itemVariationData?.imageIds !== undefined && v.itemVariationData?.imageIds?.length > 0) {
+          if (v.itemVariationData?.imageIds !== undefined && (v.itemVariationData?.imageIds?.length ?? 0) > 0) {
             // console.log("wat 2");
             // const image_id = v.itemVariationData?.imageIds[0];
             // v_image_url = images.get(image_id);
-            v.itemVariationData?.imageIds.forEach((id) => {
+            v.itemVariationData?.imageIds?.forEach((id) => {
               const image_url = images.get(id);
               if (image_url !== undefined) {
                 v_image_urls.push(image_url);
@@ -158,10 +185,10 @@ function parseCatalog(
           try {
             const sv: sqVariation = {
               id: v.id,
-              name: v.itemVariationData.name,
+              name: v.itemVariationData?.name ?? "",
               price: [price, v.itemVariationData.priceMoney.currency],
               image_urls: v_image_urls,
-              is_deleted: v.isDeleted,
+              is_deleted: v.isDeleted ?? false,
             };
 
             // console.log("sv = ", sv);
@@ -176,30 +203,39 @@ function parseCatalog(
         }
       });
 
-      if (item.itemData.reportingCategory === undefined) {
+      // if (item.itemData.reportingCategory === undefined) {
+      //   console.log("item without reporting category = ", item.itemData.name);
+      //   return;
+      // }
+
+      let reporting_category_id = item.itemData?.reportingCategory?.id ?? "";
+      let reporting_category = categories.get(reporting_category_id);
+      if (reporting_category === undefined) {
         console.log("item without reporting category = ", item.itemData.name);
         return;
-      }
-
-      let reporting_category = categories.get(item.itemData.reportingCategory);      
+      }  
       const category_ids = new Map();
 
-      item.itemData.categories.forEach((c) => {
-        category_ids.set(c.id, c.name);
+      item.itemData.categories?.forEach((c) => {
+        let cname = "";
+        if (c.id !== undefined && c.id !== null) {
+          cname = categories.get(c.id)?.name ?? "";
+        }
+        category_ids.set(c.id, cname);
       });
       
       const x: sqItem = {
         id: item.id,
-        name: item.itemData.name,
-        category: reporting_category ?? "",
-        // category: categories.get(item.itemData.categoryId),
+        name: item.itemData.name ?? "",
+        // category_id_main: reporting_category.id,
+        category: reporting_category,
         // category_id_main: item.itemData.categoryId,
         category_ids: category_ids,
         variations: vs,
         image_urls: image_urls,
         price_range: [price_min, price_max],
-        is_archived: item.itemData.isArchived,
-        is_deleted: item.isDeleted,
+        is_archived: item.itemData?.isArchived ?? false,
+        is_deleted: item.isDeleted ?? false,
         // tags: tags,
         description: description,
       };
@@ -216,38 +252,12 @@ function parseCatalog(
     }
   });
 
-  console.log("sorting categories");
-  catalog.forEach((item) => {
-    try {
-      if (item.type !== 'CATEGORY' || item.is_deleted) {
-        return;
-      }
-
-      if (item.categoryData === undefined) {
-        console.log("category has no categoryData");
-        throw new Error("category has no categoryData");
-      }
-
-      let category: sqCategory = {
-        id: item.id,
-        name: item.categoryData.name,
-        image_url: item.categoryData.imageId !== undefined ? images.get(item.categoryData.imageId) : undefined,
-        is_deleted: item.isDeleted,
-        // parent: item.categoryData.parentCategory,
-      };
-
-      categories.set(item.id, category);
-    } catch (error) {
-      console.log("category error = ", item.id, ": ", error);    
-    }
-  });
-  console.log("categories.size = ", categories.size);
-
-  for (const [categoryId, category] of categories) {
+  // remove categories with no items
+  for (const [categoryId, _category] of categories) {
     let hasItems = false;
 
     for (const item of items.values()) {
-      if (item.category_id_main == categoryId || item.category_ids.has(categoryId)) {
+      if (item.category.id == categoryId || item.category_ids.has(categoryId)) {
         hasItems = true;
         break;
       }
@@ -261,13 +271,14 @@ function parseCatalog(
   return {
     items: items,
     categories: categories,
+    categories_rev: new Map(Array.from(categories.entries()).map(([k, v]) => [v.name, k])),
   };
 }
 
 export async function fetchSquareCatalog(): Promise<sqCatalog> {
   try {
     console.log("fetching catalog...");
- 
+
     const { result: result_catalog } = await client.catalogApi.searchCatalogObjects({
       objectTypes: [
         'ITEM',
@@ -283,13 +294,10 @@ export async function fetchSquareCatalog(): Promise<sqCatalog> {
       result_catalog?.objects ?? []
       );
   } catch (error) {
-    if (error instanceof ApiError) {
-      console.log("fetch catalog error?");
-
-      // @ts-expect-error: unused variables
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const errors = error.result;
-      // const { statusCode, headers } = error;
-    }
+    console.log("fetch catalog error?");
+    // if (error instanceof ApiError) {
+    //   const errors = error.result;
+    // }
+    throw error;
   }
 }

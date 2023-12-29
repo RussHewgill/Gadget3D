@@ -1,33 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-// import Thing from '../components/Thing.astro';
-// import CatalogItem from '../components/CatalogItem.astro';
-import ProductList from '../components/ProductList.astro';
-// import { tagFilters, getTagFilters } from '../scripts/tagFilters'
-
-// import { supabase } from '../supabase';
-
-// const { data, error } = await supabase
-//   .from('things')
-//   .select();
-// if (error) {
-//   console.error(error)
-// }
-
-// const uniqueTags = [...new Set(data.map((t) => t.tags).flat())];
-
-// const things = [...new Set(data?.map((t) => t.item_name).flat())];
+// import ProductList from '../components/ProductList.astro';
+import ProductPage from '../components/ProductPage.svelte';
 
 import {fetchSquareCatalog } from '../scripts/square.ts';
 
 const catalog = await fetchSquareCatalog();
 
-// import ProductCard from '../components/ProductCard.astro';
-
 ---
 
 <BaseLayout pageTitle="Catalog">
   
-  <ProductList catalog={catalog}/>
+  <!-- <ProductList catalog={catalog}/> -->
+  <ProductPage client:load catalog={catalog}/>
 
 </BaseLayout>

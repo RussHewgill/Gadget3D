@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
 	import ProductCard from './ProductCard.svelte';
   import type { sqCatalog } from "../scripts/square";
 
@@ -7,6 +8,9 @@
   let catalog_list = Array.from(catalog.items.values());
 
   let filters: Set<string> = new Set();
+
+  // export let init_filters: Set<string> = new Set();
+  // init_filters.forEach((id) => filters.add(id));
 
   // filters.add("EM3ZHWFBXLIPEWUMJO5BSGWZ"); // cinder
   // filters.add("7M6I325XNGOCLM3KTBUNY7UD"); // dragon
@@ -49,10 +53,33 @@
     }
   }
 
+  onMount(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filtersParam = urlParams.get('filters');
+    console.log("filtersParam: ", filtersParam);
+    if (filtersParam) {
+      const url_filters = filtersParam.split(',');
+      // lookup id from name
+      url_filters.forEach(filter => {
+        console.log("filter: ", filter);
+        const filter_id = catalog.categories_rev.get(filter);
+        console.log("filter_id: ", filter_id);
+        if (filter_id) {
+          toggleFilter(filter_id);
+        }
+      });
+
+      // catalog.categories.forEach((cat) => {
+      //   console.log("cat: ", cat);
+      // });
+
+      // filters.forEach(filter => init_filters.add(filter));
+    }
+  });
+
   // const css_selected = "border-2 border-solid border-light-accent";
   const css_deselected = "w-full text-left px-2 rounded";
   const css_selected = css_deselected + " bg-light-accent";
-
 </script>
 
 <div class="flex justify-center">
@@ -60,9 +87,9 @@
   <section class="filters-sidebar w-1/6 px-4">
 
     <select bind:value={sortOption} on:change={handleSortChange}>
+      <option value=""></option>
       <option value="name">Sort by Name</option>
       <option value="price">Sort by Price</option>
-      <!-- Add more options as needed -->
     </select>
 
     <!-- <button class="rounded px-4 py-2 my-1" on:click={() => {filters = new Set()}}> -->
@@ -94,7 +121,7 @@
           {#if (!product.is_archived
                 && !product.is_deleted
                 && (filters.size == 0
-                    || filters.has(product.category_id_main)
+                    || filters.has(product.category.id)
                     || [...product.category_ids.keys()].some(id => filters.has(id))
                     )
                 )}
