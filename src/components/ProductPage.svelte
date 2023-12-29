@@ -6,6 +6,7 @@
   export let catalog: sqCatalog;
 
   let catalog_list = Array.from(catalog.items.values());
+  let category_list = Array.from(catalog.categories.entries()).toSorted((a, b) => a[1].name.localeCompare(b[1].name));
 
   let filters: Set<string> = new Set();
 
@@ -17,10 +18,10 @@
 
   function toggleFilter(id: string) {
     if (filters.has(id)) {
-      console.log("toggling filter off: ", id);
+      // console.log("toggling filter off: ", id);
       filters.delete(id);
     } else {
-      console.log("toggling filter on: ", id);
+      // console.log("toggling filter on: ", id);
       filters.add(id);
     }
     // Trigger reactivity update
@@ -53,30 +54,6 @@
     }
   }
 
-  // function showProduct(product: sqItem): boolean {
-  //   // console.log("showProduct: ", product);
-  //   // !product.is_archived
-  //   //             && !product.is_deleted
-  //   //             && (filters.size == 0
-  //   //                 || filters.has(product.category.id)
-  //   //                 || [...product.category_ids.keys()].some(id => filters.has(id))
-  //   //                 )
-             
-  //   let show = true;
-  //   if (product.is_archived || product.is_deleted) {
-  //       show = false;
-  //   } else if (filters.size === 0) {
-  //     show = true;
-  //   } else if (filters.size === 1) {
-  //     show = filters.has(product.category.id) 
-  //       || [...product.category_ids.keys()].some(id => filters.has(id));
-  //   } else if (filters.size > 1) {
-
-  //   }
-
-  //   return show;
-  // }
-
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const filtersParam = urlParams.get('filters');
@@ -92,12 +69,6 @@
           toggleFilter(filter_id);
         }
       });
-
-      // catalog.categories.forEach((cat) => {
-      //   console.log("cat: ", cat);
-      // });
-
-      // filters.forEach(filter => init_filters.add(filter));
     }
   });
 
@@ -108,7 +79,7 @@
 
 <div class="flex justify-center">
   <!-- Filters -->
-  <section class="filters-sidebar w-1/6 px-4">
+  <section class="filters-sidebar w-1/6 px-4 pt-12">
 
     <select bind:value={sortOption} on:change={handleSortChange}>
       <option value=""></option>
@@ -123,7 +94,7 @@
     <!-- <h2 class="text-center text-2xl font-bold my-2">Filters</h2> -->
     <hr class="my-2"/>
     <ul class="w-full">
-      {#each Array.from(catalog.categories.entries()) as [id, cat] (id)}
+      {#each category_list as [id, cat] (id)}
       <li class="w-full my-1">
         <button
           on:click={() => toggleFilter(id)}
