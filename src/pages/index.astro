@@ -27,20 +27,30 @@ import FrontPageCard from '../components/FrontPageCard.astro';
   <div class="category-grid grid gap-2.5 lg:grid-cols-3 py-4">
 
     <FrontPageCard title="Dragons" 
-      image={import(`../assets/images/things/adult_gemstone.jpg`)}/>
+      image={import(`../assets/images/things/adult_gemstone.jpg`)}
+      link="/catalog?filters=Baby%20Dragon"
+      />
     <FrontPageCard title="Baby Dragons" 
       image={import(`../assets/images/things/baby_crystalwing.jpg`)}
       link="/catalog?filters=Baby%20Dragon"
       />
     <FrontPageCard title="Fidgets" 
-      image={import(`../assets/images/categories/Fidgets.jpg`)}/>
+      image={import(`../assets/images/categories/Fidgets.jpg`)}
+      link="/catalog?filters=Baby%20Dragon"
+      />
     <FrontPageCard title="Critters" 
       image={import(`../assets/images/things/critters1.jpg`)}
-      link="/things/Critters"/>
+      link="/things/Critters"
+      />
     <FrontPageCard title="Creepy Crawlies" 
-      image={import(`../assets/images/things/tiny_spider.jpg`)}/>
-    <FrontPageCard title="Dice Towers" 
-      image={import(`../assets/images/things/crystal_mushroom_dicetower.jpg`)}/>
+      image={import(`../assets/images/things/tiny_spider.jpg`)}
+      link="/things/Tiny Spider"
+      />
+
+    <!-- <FrontPageCard title="Dice Towers" 
+      image={import(`../assets/images/things/crystal_mushroom_dicetower.jpg`)}
+      link="/catalog?filters=Baby%20Dragon"
+      /> -->
       
     <!-- <FrontPageCard title="Dinosaurs" 
         image={import(`../assets/images/things/ferret.jpg`)}/> -->

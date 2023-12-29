@@ -53,17 +53,41 @@
     }
   }
 
+  // function showProduct(product: sqItem): boolean {
+  //   // console.log("showProduct: ", product);
+  //   // !product.is_archived
+  //   //             && !product.is_deleted
+  //   //             && (filters.size == 0
+  //   //                 || filters.has(product.category.id)
+  //   //                 || [...product.category_ids.keys()].some(id => filters.has(id))
+  //   //                 )
+             
+  //   let show = true;
+  //   if (product.is_archived || product.is_deleted) {
+  //       show = false;
+  //   } else if (filters.size === 0) {
+  //     show = true;
+  //   } else if (filters.size === 1) {
+  //     show = filters.has(product.category.id) 
+  //       || [...product.category_ids.keys()].some(id => filters.has(id));
+  //   } else if (filters.size > 1) {
+
+  //   }
+
+  //   return show;
+  // }
+
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const filtersParam = urlParams.get('filters');
-    console.log("filtersParam: ", filtersParam);
+    // console.log("filtersParam: ", filtersParam);
     if (filtersParam) {
       const url_filters = filtersParam.split(',');
       // lookup id from name
       url_filters.forEach(filter => {
-        console.log("filter: ", filter);
+        // console.log("filter: ", filter);
         const filter_id = catalog.categories_rev.get(filter);
-        console.log("filter_id: ", filter_id);
+        // console.log("filter_id: ", filter_id);
         if (filter_id) {
           toggleFilter(filter_id);
         }
@@ -113,18 +137,34 @@
   </section>
 
   <!-- Product Grid -->
+  <!-- <section class="catalog-grid w-5/6 px-4">
+    <div class="container py-12 sm:py-16">
+      <h2 class="sr-only">Products</h2>
+      <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
+        {#each catalog_list as product}
+          {#if (showProduct(product))}
+            <ProductCard product={product}/>
+          {/if}
+        {/each}
+      </div>
+    </div>
+  </section> -->
   <section class="catalog-grid w-5/6 px-4">
     <div class="container py-12 sm:py-16">
       <h2 class="sr-only">Products</h2>
       <div class="grid gap-5 md:grid-cols-3 lg:grid-cols-4">
         {#each catalog_list as product}
           {#if (!product.is_archived
-                && !product.is_deleted
-                && (filters.size == 0
-                    || filters.has(product.category.id)
-                    || [...product.category_ids.keys()].some(id => filters.has(id))
-                    )
-                )}
+              && !product.is_deleted
+              && (filters.size == 0
+                  || (filters.size == 1
+                      && (filters.has(product.category.id)
+                      || [...product.category_ids.keys()].some(id => filters.has(id))))
+                  // check that the product has all the filters
+                  || (filters.size > 1
+                      && [...filters].every(id => product.category_ids.has(id) || id === product.category.id)
+                      )
+              ))}
             <ProductCard product={product}/>
           {/if}
         {/each}

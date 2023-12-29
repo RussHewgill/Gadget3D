@@ -32,6 +32,7 @@ export interface sqItem {
   is_deleted: boolean;
   // tags: string[];
   description: string;
+  // custom_values: Map<string, string>;
 }
 
 export interface sqVariation {
@@ -223,7 +224,22 @@ function parseCatalog(
         }
         category_ids.set(c.id, cname);
       });
-      
+
+      // let custom_values = new Map();
+
+      // item.customAttributeValues?.forEach((v) => {
+      //   console.log("v = ", v);
+      // });
+
+      if (item.customAttributeValues !== undefined && item.customAttributeValues !== null) {
+        let v = item.customAttributeValues['Square:7056c8d1-1fb3-405c-8080-d4b64d53747b'];
+        if (v !== undefined) {
+          if (v['name'] === 'online' && !v['booleanValue']) {
+            return;
+          }
+        }
+      }
+
       const x: sqItem = {
         id: item.id,
         name: item.itemData.name ?? "",
@@ -238,6 +254,7 @@ function parseCatalog(
         is_deleted: item.isDeleted ?? false,
         // tags: tags,
         description: description,
+        // custom_values: custom_values,
       };
 
       // 
