@@ -28,20 +28,22 @@ import FrontPageCard from '../components/FrontPageCard.astro';
 
     <FrontPageCard title="Dragons" 
       image={import(`../assets/images/things/adult_gemstone.jpg`)}
-      link="/catalog?filters=Baby%20Dragon"
+      link="/catalog?filters=Dragon"
       />
     <FrontPageCard title="Baby Dragons" 
-      image={import(`../assets/images/things/baby_crystalwing.jpg`)}
+      image={import(`../assets/images/categories/Baby_Dragons1.jpg`)}
       link="/catalog?filters=Baby%20Dragon"
       />
     <FrontPageCard title="Fidgets" 
       image={import(`../assets/images/categories/Fidgets.jpg`)}
-      link="/catalog?filters=Baby%20Dragon"
+      link="/catalog?filters=Fidget"
       />
     <FrontPageCard title="Critters" 
       image={import(`../assets/images/things/critters1.jpg`)}
       link="/things/Critters"
       />
+    <!-- <FrontPageCard title=""
+      /> -->
     <FrontPageCard title="Creepy Crawlies" 
       image={import(`../assets/images/things/tiny_spider.jpg`)}
       link="/things/Tiny Spider"
@@ -52,35 +54,8 @@ import FrontPageCard from '../components/FrontPageCard.astro';
       link="/catalog?filters=Baby%20Dragon"
       /> -->
       
-    <!-- <FrontPageCard title="Dinosaurs" 
-        image={import(`../assets/images/things/ferret.jpg`)}/> -->
     <!-- <FrontPageCard title="Frogs" 
         image={import(`../assets/images/things/ferret.jpg`)}/> -->
-    <!-- <FrontPageCard title="Turtles" 
-        image={import(`../assets/images/things/ferret.jpg`)}/> -->
-    <!-- <FrontPageCard title="Keychains and Bag Charms" 
-        image={import(`../assets/images/things/ferret.jpg`)}/> -->
   </div>
-
-  <!-- <div>
-    <div>
-      <h2 class="font-bold text-center">Artists</h2>
-      <div class="category-grid grid gap-2.5 lg:grid-cols-3">
-        {data.filter((item) => item.is_artist).map((item) => (
-          <CategoryItem item={item}/>
-          ))}
-    </div>
-  </div> -->
-    
-  <!-- <h2>Categories</h2> -->
-  <!-- <div>
-    <div class="category-grid grid gap-2.5 lg:grid-cols-3">
-      {data.filter((item) => !item.is_artist).map((item) => (
-        <CategoryItem item={item}/>
-        ))}
-    </div>
-  </div> -->
-
-  <!-- </div> -->
 
 </BaseLayout>

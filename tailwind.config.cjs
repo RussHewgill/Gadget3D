@@ -10,24 +10,24 @@ module.exports = {
   //   })
   // ],
 	theme: {
-		screens: {
-      sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
-    },
-		colors: {
-			'light-shade': '#FBF9FB',
-			'light-accent': '#C5957A',
-			'color-main': '#CE2020',
-			'dark-accent': '#867C93',
-			'dark-shade': '#211D24',
-    },
 		// fontFamily: {
     //   sans: ['Graphik', 'sans-serif'],
     //   serif: ['Merriweather', 'serif'],
     // },
 		extend: {
+      screens: {
+        sm: '480px',
+        md: '768px',
+        lg: '976px',
+        xl: '1440px',
+      },
+      colors: {
+        'light-shade': '#FBF9FB',
+        'light-accent': '#C5957A',
+        'color-main': '#CE2020',
+        'dark-accent': '#867C93',
+        'dark-shade': '#211D24',
+      },
 			spacing: {
 			}
 		},

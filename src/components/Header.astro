@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import Navigation from './Navigation.astro';
+import Hamburger from './Hamburger.astro';
 import SellerBadge from './SellerBadge.astro';
 
 import badge_cinderwing from "../assets/images/badges/cinderwing_small.png";
@@ -12,7 +13,12 @@ const icon_width = 40;
 const icon_height = 40;
 ---
 
-<header class="background-dark-shade border-light-accent border-2 border-solid w-full max-w-2xl lg:max-w-2xl sm:max-w-sm">
+<header class="background-dark-shade 
+              border-light-accent border-2 border-solid 
+              w-full max-w-2xl 
+              lg:max-w-2xl 
+              sm:max-w-sm
+              ">
     <div class="header-container bg-dark-shade p-1 flex flex-wrap justify-between align-center">
       <div class="header-div header-title">
         <h1 class="text-5xl font-bold">Gadget3D</h1>
@@ -51,6 +57,7 @@ const icon_height = 40;
 
     <!-- <hr> -->
     <nav>
+      <Hamburger />
       <Navigation />
     </nav>
 

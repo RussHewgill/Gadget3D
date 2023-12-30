@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 @layer components {
-  .nav-link {
+  /* .nav-links {
     @apply block text-center p-2.5 font-bold uppercase hover:bg-light-accent
-  }
+  } */
   .event-th {
     @apply px-6 py-3 text-left font-semibold
   }

@@ -41,14 +41,17 @@
       //   // TODO
       //   break;
       case 'name':
-        console.log("sorting by name");
+        // console.log("sorting by name");
         // catalog_list.sort((a, b) => a.name.localeCompare(b.name));
         catalog_list = [...catalog_list].sort((a, b) => a.name.localeCompare(b.name));
         break;
-        case 'price':
-        console.log("sorting by price");
-        // catalog_list.sort((a, b) => a.price_range[0] - b.price_range[0]);
+        case 'price_asc':
+        // console.log("sorting by price");
         catalog_list = [...catalog_list].sort((a, b) => a.price_range[0] - b.price_range[0]);
+        break;
+        case 'price_desc':
+        // console.log("sorting by price");
+        catalog_list = [...catalog_list].sort((a, b) => b.price_range[0] - a.price_range[0]);
         break;
       // Add more cases as needed
     }
@@ -83,8 +86,9 @@
 
     <select bind:value={sortOption} on:change={handleSortChange}>
       <option value=""></option>
-      <option value="name">Sort by Name</option>
-      <option value="price">Sort by Price</option>
+      <option value="name">Name</option>
+      <option value="price_asc">Price (Low to High)</option>
+      <option value="price_desc">Price (High to Low)</option>
     </select>
 
     <!-- <button class="rounded px-4 py-2 my-1" on:click={() => {filters = new Set()}}> -->
@@ -144,3 +148,19 @@
   </section>
 
 </div>
+
+<style>
+  /* .filters-sidebar {
+  }
+
+  @media (max-width: 600px) {
+    .filters-sidebar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow: auto;
+    }
+  } */
+</style>
