@@ -1,79 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EventsPage from '../components/EventsPage.svelte';
+// import EventsPage from '../components/EventsPage.svelte';
+import EventsPage2 from '../components/EventsPage2.svelte';
+
+// const PUBLIC_CALENDER_API_KEY = import.meta.env.PUBLIC_CALENDER_API_KEY;
+// const PUBLIC_G_CALENDER_ID = import.meta.env.PUBLIC_G_CALENDER_ID;
+
+// console.log('PUBLIC_CALENDER_API_KEY', PUBLIC_CALENDER_API_KEY);
+
 ---
 
 <BaseLayout pageTitle="Events">
-
-  <EventsPage client:load/>
-
-<!-- 
-  <div class="relative overflow-x-auto py-8">
-    <table id="eventTable" class="w-full text-sm text-left">
-      <thead class="text-xs uppercase bg-light-accent">
-        <tr>
-          <th class=".event-th">Event</th>
-          <th class=".event-th">Start Date</th>
-          <th class=".event-th">End Date</th>
-          <th class=".event-th">Time</th>
-          <th class=".event-th">Location</th>
-        </tr>
-      </thead>
-      <tbody id="eventTableBody">
-
-      </tbody>
-    </table>
-  </div>
-
-  <script>
-    import { fetchEvents } from '../scripts/fetchEvents';
-    import { format } from 'date-fns';
-
-    const events = await fetchEvents();
-    
-    const body = document.getElementById("eventTableBody");
-
-    events.forEach((event) => {
-      console.log(event.name);
-
-      const row = document.createElement("tr");
-
-      const cellName = document.createElement("td");
-      cellName.textContent = event.name;
-      row.appendChild(cellName);
-      
-      const cellDateStart = document.createElement("td");
-      try {
-        cellDateStart.textContent = format(event.date_start, "yyyy-MM-dd");
-      } catch (error) {
-      }
-      row.appendChild(cellDateStart);
-
-      // silently ignore missing end dates
-      const cellDateEnd = document.createElement("td");
-      try {
-        cellDateEnd.textContent = format(event.date_end, "yyyy-MM-dd");
-      } catch (error) {
-      }
-      row.appendChild(cellDateEnd);
-      
-      const cellTime = document.createElement("td");
-      try {
-        const time_start = format(event.time_start, "h:mm a");
-        const time_end = format(event.time_end, "h:mm a");
-        cellTime.textContent = `${time_start} - ${time_end}`;
-      } catch (error) {
-        const time_start = format(event.time_start, "h:mm a");
-        cellTime.textContent = time_start;
-      }
-      row.appendChild(cellTime);
-
-      const cellLocation = document.createElement("td");
-      cellLocation.textContent = event.location;
-      row.appendChild(cellLocation);
-
-      body.appendChild(row);
-    });
-
-  </script> -->
+  <!-- <EventsPage client:load/> -->
+  <!-- calender_api_key={PUBLIC_CALENDER_API_KEY}
+  calender_id={PUBLIC_G_CALENDER_ID} -->
+  <EventsPage2 
+    client:load
+    />
 </BaseLayout>

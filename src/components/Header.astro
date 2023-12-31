@@ -2,10 +2,10 @@
 import { Picture } from 'astro:assets';
 import Navigation from './Navigation.astro';
 import Hamburger from './Hamburger.astro';
-import SellerBadge from './SellerBadge.astro';
+// import SellerBadge from './SellerBadge.astro';
 
-import badge_cinderwing from "../assets/images/badges/cinderwing_small.png";
-import badge_matmire from "../assets/images/badges/matmire_small.png";
+// import badge_cinderwing from "../assets/images/badges/cinderwing_small.png";
+// import badge_matmire from "../assets/images/badges/matmire_small.png";
 
 import icon_insta from "../assets/icons/insta.svg";
 
@@ -16,13 +16,13 @@ const icon_height = 40;
 <header class="background-dark-shade 
               border-light-accent border-2 border-solid 
               w-full max-w-2xl 
-              lg:max-w-2xl 
+              lg:max-w-3xl 
               sm:max-w-sm
               ">
     <div class="header-container bg-dark-shade p-1 flex flex-wrap justify-between align-center">
-      <div class="header-div header-title">
+      <div class="header-div header-title px-3">
         <h1 class="text-5xl font-bold">Gadget3D</h1>
-        <h2 class="py-2 font-bold">3D Printed Toys and Gifts</h2>
+        <h2 class="py-2 font-bold">3D Printing in North Vancouver</h2>
         <p class="text-base">Contact: 
           <a href="mailto:printing@gadget3d.ca">
             printing@gadget3d.ca
@@ -48,16 +48,18 @@ const icon_height = 40;
 
       </div>
 
-      <div class="badge-container flex align-end justify-end">
+      <!-- <div class="badge-container flex align-end justify-end">
         <SellerBadge img={badge_cinderwing}/>
         <SellerBadge img={badge_matmire}/>
-      </div>
+      </div> -->
 
+      <div class="flex flex-col justify-end">
+        <Hamburger />
+      </div>
     </div>
 
     <!-- <hr> -->
     <nav>
-      <Hamburger />
       <Navigation />
     </nav>
 

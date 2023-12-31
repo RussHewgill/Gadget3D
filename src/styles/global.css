@@ -58,16 +58,21 @@
 
 @media screen and (min-width: 636px) {
   .nav-links {
-    margin-left: 5em;
     display: block;
-    position: static;
-    width: auto;
-    background: none;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: transparent;
+    /* margin-left: 5em; */
+    /* position: static; */
+    /* width: auto; */
+    /* background: none; */
   }
 
   .nav-links a {
+    padding: 0.625rem;
     display: inline-block;
-    padding: 15px 20px;
+    /* padding: 15px 20px; */
   }
 
   .hamburger {
